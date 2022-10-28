@@ -25,12 +25,10 @@ class DocToPdf(Storage):
             # print('Добавление водяного знака')
             # self.add_watermark(out_file)
 
+
     @staticmethod
     def __replace_doc_to_pdf(file_name: str) -> str:
-        if '.docx' in file_name:
-            return file_name.replace('.docx', '.pdf')
-        else:
-            return file_name.replace('.doc', '.pdf')
+        return file_name.replace('.docx', '.pdf') if file_name.endswith('.docx') else file_name.replace('.doc', '.pdf')
 
     def add_watermark(self, pdf_file_path: str):
         merged = pdf_file_path.replace('.pdf', '-watermark.pdf')
