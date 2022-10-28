@@ -3,6 +3,9 @@ from storage import Storage
 
 # Функция ищет в csv файле артикула, проверяет наличие артикула в названиях с папками
 # Если артикул из файла совпадает с названием папки, то переносит эту папку в директорию "на загрузку"
+
+# ищет артикул в .xls|x/.csv файле и сопоставляет с названием папки, если папка найдена - переносит её
+# в указанную директорию
 class PreparePhotoArchive(Storage):
     def __init__(self, dir_with_photo_path: str, file_with_articles_path: str, result_dir_path: str):
         super().__init__()
