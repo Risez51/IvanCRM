@@ -11,7 +11,7 @@ class UserConsoleInteraction:
         action_number = input('Введите номер: ')
         self.__get_action(action_number)
 
-    def __get_action(self, action_value):
+    def __get_action(self, action_value: str):
         actions = {'1': self.__get_prepare_photo_archive,
                    '0': exit}
         if action_value in actions:

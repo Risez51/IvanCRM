@@ -1,6 +1,7 @@
 from pandas import ExcelFile, read_csv
-from shutil import move
-from os import listdir
+from shutil import move, copyfile
+import openpyxl
+from os import listdir, remove
 from typing import List
 from numpy import array
 
@@ -20,18 +21,28 @@ class Storage:
     def __get_list_from_csv(file_path: str) -> array:
         return read_csv(file_path, sep=";", engine='python', encoding='latin-1').to_numpy()
 
-    # return list with doc paths
-    @staticmethod
-    def get_path_docs(dir_path: str) -> List[str]:
-        return [doc_file_path for doc_file_path in dir_path if '.doc' in doc_file_path and '$' not in doc_file_path]
+    # return list with files name .doc format
+    def get_docs_name(self, dir_path: str) -> List[str]:
+        return [doc_file_path for doc_file_path in self.get_files_name(dir_path) if '.doc' in doc_file_path and not '$' in doc_file_path]
+
+    # return list with files name .pdf format
+    def get_pdfs_name(self, dir_path: str) -> List[str]:
+        return [doc_file_path for doc_file_path in self.get_files_name(dir_path) if '.pdf' in doc_file_path and not '$' in doc_file_path]
 
     # return list with dir_names and file_names
     @staticmethod
-    def get_dirs(dir_path: str) -> List[str]:
+    def get_files_name(dir_path: str) -> List[str]:
         return listdir(dir_path)
 
     # remove folder(folder_name) from 'from_dir' to 'to_dir'
     @staticmethod
-    def remove_folder(from_dir, to_dir, folder_name):
-        move(f'{from_dir}\\{folder_name}', to_dir)
+    def move(from_dir, to_dir, name):
+        move(f'{from_dir}\\{name}', to_dir)
 
+    @staticmethod
+    def copy_file_to(from_dir, to_dir):
+        copyfile(from_dir, to_dir)
+
+    @staticmethod
+    def remove(file_path):
+        remove(file_path)

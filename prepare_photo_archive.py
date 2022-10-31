@@ -15,7 +15,7 @@ class PreparePhotoArchive(Storage):
 
     def start(self):
         articles_list_without_photo = self.get_data_list(self.__file_with_articles_path)
-        dirs_list_with_photo = self.get_dirs(self.__dir_with_photo_path)
+        dirs_list_with_photo = self.get_files_name(self.__dir_with_photo_path)
 
         for row in articles_list_without_photo:
             article = str(row[0])
@@ -24,5 +24,5 @@ class PreparePhotoArchive(Storage):
     def __find_folder_by_name(self, dir_for_find: list, search_folder_name: str):
         for current_folder_name in dir_for_find:
             if str(current_folder_name) == search_folder_name:
-                self.remove_folder(self.__dir_with_photo_path, self.__result_dir_path, current_folder_name)
+                self.move(self.__dir_with_photo_path, self.__result_dir_path, current_folder_name)
                 break
