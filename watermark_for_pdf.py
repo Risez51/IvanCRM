@@ -10,6 +10,7 @@ class Watermark:
 
     def add_watermark(self):
         merged = self.pdf_file_path.replace('.pdf', '-watermark.pdf')
+        #merged = self.pdf_file_path
         with open(self.pdf_file_path, "rb") as input_file:
             input_pdf = PdfFileReader(input_file, strict=False)
             watermark = self.__get_orient_watermark_pdf(input_pdf.getPage(0).mediabox)
@@ -24,6 +25,7 @@ class Watermark:
                 with open(merged, "wb"):
                     output.write(merged)
         Storage().remove(self.pdf_file_path)
+        Storage().rename(merged, self.pdf_file_path)
 
     @staticmethod
     def __get_orient_watermark_pdf(input_pdf: RectangleObject) -> str:

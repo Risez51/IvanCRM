@@ -1,5 +1,6 @@
+import os.path
 from pandas import ExcelFile, read_csv
-from shutil import move, copyfile
+from shutil import move, copyfile, rmtree
 import openpyxl
 from os import listdir, remove
 from typing import List
@@ -34,6 +35,11 @@ class Storage:
     def get_files_name(dir_path: str) -> List[str]:
         return listdir(dir_path)
 
+    # return file name
+    @staticmethod
+    def get_file_name(dir_path: str) -> str:
+        return os.path.basename(dir_path)
+
     # remove folder(folder_name) from 'from_dir' to 'to_dir'
     @staticmethod
     def move(from_dir, to_dir, name):
@@ -46,3 +52,21 @@ class Storage:
     @staticmethod
     def remove(file_path):
         remove(file_path)
+
+    @staticmethod
+    def rename(old_path_name, new_path_name):
+        os.rename(old_path_name, new_path_name)
+
+    @staticmethod
+    def create_folder(path_to):
+        if os.path.exists(path_to):
+            print('папка уже существует')
+        else:
+            os.mkdir(path_to)
+
+    @staticmethod
+    def delete_folder_with_files(path_to):
+        if os.path.exists(path_to):
+            rmtree(path_to)
+        else:
+            print('папки не существует')

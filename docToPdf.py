@@ -14,6 +14,7 @@ class DocToPdf(Storage):
         if '.doc' in file_name and not '$' in file_name:
             self.__word_to_pdf(file_name)
         elif '.pdf' in file_name and not '$' in file_name:
+            print(f'pdf {file_name}')
             self.copy_file_to(f'{self.input_file_path}\\{file_name}', f'{self.output_dir_path}\\{file_name}')
         else:
             print(f'Неподходящий формат файла: {file_name}')
