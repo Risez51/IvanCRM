@@ -29,9 +29,13 @@ class Watermark:
 
     @staticmethod
     def __get_orient_watermark_pdf(input_pdf: RectangleObject) -> str:
+        #pdf_width = input_pdf.upperRight[0] - input_pdf.lowerLeft[0]
+        #pdf_height = input_pdf.upperRight[1] - input_pdf.lowerLeft[1]
+        #print(f'Ширина: {pdf_width}\nВысота: {pdf_height}')
         if input_pdf.getUpperRight_x() - input_pdf.getUpperLeft_x() > \
                 input_pdf.getUpperRight_y() - input_pdf.getLowerRight_y():
             # print('horizontal')
+
             return 'ЧЕРНОВИК-HORIZONTAL.pdf'
         else:
             # print('vertical')
