@@ -43,19 +43,23 @@ class Storage:
     # remove folder(folder_name) from 'from_dir' to 'to_dir'
     @staticmethod
     def move(from_dir, to_dir, name):
-        move(f'{from_dir}\\{name}', to_dir)
+        if os.path.exists(from_dir) and os.path.exists(to_dir):
+            move(f'{from_dir}\\{name}', to_dir)
 
     @staticmethod
     def copy_file_to(from_dir, to_dir):
-        copyfile(from_dir, to_dir)
+        if os.path.exists(from_dir):
+            copyfile(from_dir, to_dir)
 
     @staticmethod
     def remove(file_path):
-        remove(file_path)
+        if os.path.exists(file_path):
+            remove(file_path)
 
     @staticmethod
     def rename(old_path_name, new_path_name):
-        os.rename(old_path_name, new_path_name)
+        if os.path.exists(old_path_name):
+            os.rename(old_path_name, new_path_name)
 
     @staticmethod
     def create_folder(path_to):

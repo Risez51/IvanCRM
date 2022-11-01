@@ -1,27 +1,32 @@
-from storage import Storage
 from docToPdf import DocToPdf
 from pdfToJpg import PdfToJpg
 from imgToPdf import ImgToPdf
 from watermark_for_pdf import Watermark
+from storage import Storage
 
 
 class PassportProtection:
-    def __init__(self, input_files_path: str, output_files_path: str):
+    def __init__(self, input_files_path: str):
         self.input_files_path = input_files_path
-        self.output_files_path = output_files_path
 
     def start(self):
         input_files = Storage.get_files_name(self.input_files_path)
+        template_pdf_files = self.input_files_path + '\\template_pdf'
+        Storage().create_folder(template_pdf_files)
 
         for current_file in input_files:
-            DocToPdf(self.input_files_path, self.output_files_path).convert(current_file)
+            DocToPdf(self.input_files_path, template_pdf_files).convert(current_file)
 
-        output_files = Storage.get_files_name(self.output_files_path)
+        output_files = Storage().get_files_name(template_pdf_files)
+        template_jpg_files = self.input_files_path + '\\template_jpg'
+        result_pdf_path = self.input_files_path + '\\Паспорта с защитой'
+        Storage().create_folder(result_pdf_path)
         for current_file in output_files:
-            Watermark(f'{self.output_files_path}\\{current_file}').add_watermark()
-            PdfToJpg(f'{self.output_files_path}\\{current_file}', self.output_files_path).convert()
-
-            template_path = self.output_files_path + '\\template'
-            #result_file_path = self.output_files_path + '\\protect_files'
-
-            ImgToPdf(template_path, 'C:\\Users\\OperTech\\Desktop\\Калиброн\\protect_files', current_file).convert()
+            print(f'Обработка файла: {current_file}')
+            Storage().create_folder(template_jpg_files)
+            Watermark(f'{template_pdf_files}\\{current_file}').add_watermark()
+            PdfToJpg(f'{template_pdf_files}\\{current_file}', template_jpg_files).convert()
+            ImgToPdf(template_jpg_files, result_pdf_path, current_file).convert()
+            Storage().delete_folder_with_files(template_jpg_files)
+        Storage().delete_folder_with_files(template_pdf_files)
+        print(f'Обработка завершена, файлы находятся в папке {result_pdf_path}')

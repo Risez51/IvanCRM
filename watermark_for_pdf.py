@@ -9,8 +9,8 @@ class Watermark:
         self.pdf_file_path = pdf_file_path
 
     def add_watermark(self):
+        # print(f'Добавление Watermark: {Storage().get_file_name(self.pdf_file_path)}')
         merged = self.pdf_file_path.replace('.pdf', '-watermark.pdf')
-        #merged = self.pdf_file_path
         with open(self.pdf_file_path, "rb") as input_file:
             input_pdf = PdfFileReader(input_file, strict=False)
             watermark = self.__get_orient_watermark_pdf(input_pdf.getPage(0).mediabox)

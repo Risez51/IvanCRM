@@ -14,14 +14,14 @@ class DocToPdf(Storage):
         if '.doc' in file_name and not '$' in file_name:
             self.__word_to_pdf(file_name)
         elif '.pdf' in file_name and not '$' in file_name:
-            print(f'pdf {file_name}')
+            # print(f'Копирование: {file_name}')
             self.copy_file_to(f'{self.input_file_path}\\{file_name}', f'{self.output_dir_path}\\{file_name}')
         else:
             print(f'Неподходящий формат файла: {file_name}')
 
     def __word_to_pdf(self, doc_file_name: str):
         word = CreateObject('Word.Application')
-        print(f'Обработка файла: {doc_file_name}\n Процесс...')
+        # print(f'Конвертация в pdf: {doc_file_name}')
         in_file = f'{self.input_file_path}\\{doc_file_name}'
         out_file = f'{self.output_dir_path}\\{self.__replace_name_doc_to_pdf(doc_file_name)}'
         doc = word.Documents.Open(in_file)
