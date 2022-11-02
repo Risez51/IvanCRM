@@ -1,5 +1,5 @@
-from prepare_photo_archive import PreparePhotoArchive
-from passport_protection import PassportProtection
+from actions.prepare_photo_archive import PreparePhotoArchive
+from actions.passport_protection import PassportProtection
 
 
 class UserConsoleInteraction:
@@ -20,7 +20,7 @@ class UserConsoleInteraction:
         if action_value in actions:
             return actions[action_value]()
         else:
-            self.__no_action()
+            print('Такого действия нет')
             return self.start()
 
     @staticmethod
@@ -34,7 +34,3 @@ class UserConsoleInteraction:
     def __get_passport_protection():
         dir_with_passports = input('Введите путь к папке с паспортами:')
         PassportProtection(dir_with_passports).start()
-
-    @staticmethod
-    def __no_action():
-        print('Такого действия нет')

@@ -1,11 +1,14 @@
-from storage import Storage
+"""
+    Designed to create an archive with folders that contain photos.
+    Accepts a directory with folders whose names are equal to the article.
+    It sorts through the article in the first column in .csv, .xls, .xlsx files
+    (the file with the article upload without a photo),
+    looks for the article that matches the name of the folder with the article and moves it to the resulting directory
+ """
+
+from file_manager.storage import Storage
 
 
-# Функция ищет в csv файле артикула, проверяет наличие артикула в названиях с папками
-# Если артикул из файла совпадает с названием папки, то переносит эту папку в директорию "на загрузку"
-
-# ищет артикул в .xls|x/.csv файле и сопоставляет с названием папки, если папка найдена - переносит её
-# в указанную директорию
 class PreparePhotoArchive(Storage):
     def __init__(self, dir_with_photo_path: str, file_with_articles_path: str, result_dir_path: str):
         super().__init__()
@@ -14,8 +17,8 @@ class PreparePhotoArchive(Storage):
         self.__result_dir_path = result_dir_path
 
     def start(self):
-        articles_list_without_photo = self.get_data_list(self.__file_with_articles_path)
-        dirs_list_with_photo = self.get_files_name(self.__dir_with_photo_path)
+        articles_list_without_photo = self.get_data_from_excel(self.__file_with_articles_path)
+        dirs_list_with_photo = self.get_filenames(self.__dir_with_photo_path)
 
         for row in articles_list_without_photo:
             article = str(row[0])

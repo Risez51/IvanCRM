@@ -1,4 +1,4 @@
-from user_console_interaction import UserConsoleInteraction
+from view.user_console_interaction import UserConsoleInteraction
 
 
 def main():

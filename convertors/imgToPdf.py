@@ -1,5 +1,9 @@
+"""
+    Converts one or more .jpg files into one .pdf file.
+"""
+
 from PIL import Image
-from storage import Storage
+from file_manager.storage import Storage
 
 
 class ImgToPdf:
@@ -9,7 +13,6 @@ class ImgToPdf:
         self.path_to_save = path_to_save
 
     def convert(self):
-        # print(f'Преобразование JPG в PDF: {self.pdf_result_name}')
-        image_list = Storage().get_files_name(self.dir_with_img_files)
+        image_list = Storage().get_filenames(self.dir_with_img_files)
         img_files = [Image.open(self.dir_with_img_files + '\\' + img) for img in image_list]
         img_files[0].save(f'{self.path_to_save}\\{self.pdf_result_name}', save_all=True, append_images=img_files[1:])

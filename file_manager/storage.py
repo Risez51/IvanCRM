@@ -5,12 +5,21 @@ import openpyxl
 from os import listdir, remove
 from typing import List
 from numpy import array
+from file_manager.decorator import is_exists, is_not_exists
+
 
 class Storage:
+
     # get data array from .csv/excel file
-    def get_data_list(self, file_path: str, sheet_index: int = 0) -> array:
+    def get_data_from_excel(self, file_path: str, sheet_index: int = 0) -> array:
         return self.__get_data_from_excel(file_path, sheet_index) if ".xl" in file_path \
             else self.__get_list_from_csv(file_path)
+
+    def get_passport_type_files(self, dir_path: str):
+        return [filename for filename in self.get_filenames(dir_path)
+                if filename.endswith('.pdf')
+                or filename.endswith('.doc')
+                or filename.endswith('.docx')]
 
     # get data array from .xls/.xlsx file
     @staticmethod
@@ -19,25 +28,20 @@ class Storage:
 
     # return list with data from .csv file
     @staticmethod
+    #@is_exists
     def __get_list_from_csv(file_path: str) -> array:
         return read_csv(file_path, sep=";", engine='python', encoding='latin-1').to_numpy()
 
-    # return list with files name .doc format
-    def get_docs_name(self, dir_path: str) -> List[str]:
-        return [doc_file_path for doc_file_path in self.get_files_name(dir_path) if '.doc' in doc_file_path and not '$' in doc_file_path]
-
-    # return list with files name .pdf format
-    def get_pdfs_name(self, dir_path: str) -> List[str]:
-        return [doc_file_path for doc_file_path in self.get_files_name(dir_path) if '.pdf' in doc_file_path and not '$' in doc_file_path]
-
     # return list with dir_names and file_names
     @staticmethod
-    def get_files_name(dir_path: str) -> List[str]:
+    #@is_exists
+    def get_filenames(dir_path: str) -> List[str]:
         return listdir(dir_path)
 
     # return file name
     @staticmethod
-    def get_file_name(dir_path: str) -> str:
+    #@is_exists
+    def get_filename(dir_path: str) -> str:
         return os.path.basename(dir_path)
 
     # remove folder(folder_name) from 'from_dir' to 'to_dir'
@@ -46,15 +50,16 @@ class Storage:
         if os.path.exists(from_dir) and os.path.exists(to_dir):
             move(f'{from_dir}\\{name}', to_dir)
 
+    # copy file from "from_dir" to "to_dir"
     @staticmethod
     def copy_file_to(from_dir, to_dir):
         if os.path.exists(from_dir):
             copyfile(from_dir, to_dir)
 
     @staticmethod
+    #@is_exists
     def remove(file_path):
-        if os.path.exists(file_path):
-            remove(file_path)
+        remove(file_path)
 
     @staticmethod
     def rename(old_path_name, new_path_name):
@@ -62,15 +67,22 @@ class Storage:
             os.rename(old_path_name, new_path_name)
 
     @staticmethod
+    #@is_not_exists
     def create_folder(path_to):
-        if os.path.exists(path_to):
-            print('папка уже существует')
-        else:
-            os.mkdir(path_to)
+        os.mkdir(path_to)
 
     @staticmethod
-    def delete_folder_with_files(path_to):
-        if os.path.exists(path_to):
-            rmtree(path_to)
+    #@is_exists
+    def delete_file_folder(path_to: str):
+        rmtree(path_to)
+
+    @staticmethod
+    def replace_doc_to_pdf_name(filename: str) -> str:
+        if filename.endswith('.doc'):
+            return filename.replace('.doc', '.pdf')
+        elif filename.endswith('.docx'):
+            return filename.replace('.docx', '.pdf')
         else:
-            print('папки не существует')
+            return filename
+
+
