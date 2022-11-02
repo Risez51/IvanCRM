@@ -28,19 +28,19 @@ class Storage:
 
     # return list with data from .csv file
     @staticmethod
-    #@is_exists
+    @is_exists
     def __get_list_from_csv(file_path: str) -> array:
         return read_csv(file_path, sep=";", engine='python', encoding='latin-1').to_numpy()
 
     # return list with dir_names and file_names
     @staticmethod
-    #@is_exists
+    @is_exists
     def get_filenames(dir_path: str) -> List[str]:
         return listdir(dir_path)
 
     # return file name
     @staticmethod
-    #@is_exists
+    @is_exists
     def get_filename(dir_path: str) -> str:
         return os.path.basename(dir_path)
 
@@ -57,7 +57,7 @@ class Storage:
             copyfile(from_dir, to_dir)
 
     @staticmethod
-    #@is_exists
+    @is_exists
     def remove(file_path):
         remove(file_path)
 
@@ -67,12 +67,12 @@ class Storage:
             os.rename(old_path_name, new_path_name)
 
     @staticmethod
-    #@is_not_exists
+    @is_not_exists
     def create_folder(path_to):
         os.mkdir(path_to)
 
     @staticmethod
-    #@is_exists
+    @is_exists
     def delete_file_folder(path_to: str):
         rmtree(path_to)
 

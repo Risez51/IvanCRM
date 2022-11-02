@@ -40,19 +40,19 @@ class PassportProtection:
 
     def __prepare_pdf_file(self, filename: str):
         if not filename.endswith('.pdf'):
-            print(f'Преобразование: {filename} -----> .PDF')
+            print(f'Преобразование: {filename}  -----> .PDF')
         DocToPdf(self.__input_files_path, self.__temporary_pdf_path).convert(filename)
 
     def __add_watermark(self, filename: str):
-        print(f'Преобразование: {filename} ----->   add a watermark')
+        print(f'Преобразование: {filename}  ----->  add a watermark')
         Watermark(f'{self.__temporary_pdf_path}\\{filename}').add_watermark()
 
     def __convert_pdf_to_jpg(self, filename: str):
-        print(f"Преобразование: {filename} ----->  .JPG")
+        print(f"Преобразование: {filename}  -----> .JPG")
         Storage().create_folder(self.__temporary_jpg_path)
         PdfToJpg(f'{self.__temporary_pdf_path}\\{filename}', self.__temporary_jpg_path).convert()
 
     def __convert_jpg_to_pdf(self, filename: str):
-        print(f"Преобразование: {filename.replace('.pdf', '.jpg')} -----> .PDF\n----------------------------")
+        print(f"Преобразование: {filename.replace('.pdf', '.jpg')}  -----> .PDF\n----------------------------")
         ImgToPdf(self.__temporary_jpg_path, self.__protected_pdf_path, filename).convert()
         Storage().delete_file_folder(self.__temporary_jpg_path)
