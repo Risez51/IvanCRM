@@ -12,6 +12,7 @@ class Watermark:
     def __init__(self, input_file_path: str):
         self.path_to_pdf_file = input_file_path
 
+    # add watermark on pdf file
     def add_watermark(self):
         result_pdf_path_name = self.path_to_pdf_file.replace('.pdf', '-watermark.pdf')
         input_pdf_file = self.__get_pdf_for_read(self.path_to_pdf_file)
@@ -24,7 +25,7 @@ class Watermark:
             output.addPage(input_pdf_page)
 
         self.__write_pdf(result_pdf_path_name, output)
-        input_pdf_file['file'].close()
+        input_pdf_file['stream'].close()
         Storage().remove(self.path_to_pdf_file)
         Storage().rename(result_pdf_path_name, self.path_to_pdf_file)
 
@@ -33,21 +34,25 @@ class Watermark:
         input_pdf = self.__get_first_page_of_pdf(input_pdf).mediabox
         if input_pdf.getUpperRight_x() - input_pdf.getUpperLeft_x() > \
                 input_pdf.getUpperRight_y() - input_pdf.getLowerRight_y():
-            return self.__get_first_page_of_pdf(r'C:\Users\OperTech\pythonProject\IvanCRM\work_files\ЧЕРНОВИК-HORIZONTAL.pdf')
+            return self.__get_first_page_of_pdf(r'C:\Users\OperTech\pythonProject\IvanCRM\work_files'
+                                                r'\ЧЕРНОВИК-HORIZONTAL.pdf')
         else:
-            return self.__get_first_page_of_pdf(r'C:\Users\OperTech\pythonProject\IvanCRM\work_files\ЧЕРНОВИК-VERTICAL.pdf')
+            return self.__get_first_page_of_pdf(r'C:\Users\OperTech\pythonProject\IvanCRM\work_files'
+                                                r'\ЧЕРНОВИК-VERTICAL.pdf')
 
     # get watermark page
     def __get_first_page_of_pdf(self, file_path: str) -> PageObject:
         pdf_file = self.__get_pdf_for_read(file_path)
         return pdf_file['reader'].getPage(0)
 
+    # return dict with PdfFileReader, file_stream
     @staticmethod
     def __get_pdf_for_read(file_path: str) -> dict:
         opened_file = open(file_path, 'rb')
         return {'reader': PdfFileReader(opened_file, strict=False),
-                'file': opened_file}
+                'stream': opened_file}
 
+    # write file_stream to file_path
     @staticmethod
     def __write_pdf(file_path: str, stream: PdfFileWriter):
         with open(file_path, 'wb'):

@@ -5,12 +5,11 @@
     Converts .pdf to jpg and back to .pdf
 """
 
-from convertors.docToPdf import DocToPdf
-from convertors.pdfToJpg import PdfToJpg
-from convertors.imgToPdf import ImgToPdf
+from convertors.doc_to_pdf import DocToPdf
+from convertors.pdf_to_jpg import PdfToJpg
+from convertors.img_to_pdf import ImgToPdf
 from convertors.watermark_for_pdf import Watermark
 from file_manager.storage import Storage
-
 
 class PassportProtection:
     def __init__(self, input_files_path: str):

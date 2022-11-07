@@ -1,7 +1,12 @@
+
+from xml.dom import minidom
+import urllib.request
+import numpy
 import os.path
+import openpyxl
+
 from pandas import ExcelFile, read_csv
 from shutil import move, copyfile, rmtree
-import openpyxl
 from os import listdir, remove
 from typing import List
 from numpy import array
@@ -11,7 +16,7 @@ from file_manager.decorator import is_exists, is_not_exists
 class Storage:
 
     # get data array from .csv/excel file
-    def get_data_from_excel(self, file_path: str, sheet_index: int = 0) -> array:
+    def get_data_from_excel(self, file_path: str, sheet_index: int = 0) -> numpy.array:
         return self.__get_data_from_excel(file_path, sheet_index) if ".xl" in file_path \
             else self.__get_list_from_csv(file_path)
 
@@ -20,6 +25,17 @@ class Storage:
                 if filename.endswith('.pdf')
                 or filename.endswith('.doc')
                 or filename.endswith('.docx')]
+
+    @staticmethod
+    def get_xml_file(url: str) -> minidom.Document:
+        try:
+            xml_file = urllib.request.urlopen(url)
+            xml_data_file = xml_file.read()
+            dom = minidom.parseString(xml_data_file)
+            dom.normalize()
+            return dom
+        except ConnectionError:
+            print(f'Ссылка недоступна: {url}')
 
     # get data array from .xls/.xlsx file
     @staticmethod
