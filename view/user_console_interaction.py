@@ -1,5 +1,5 @@
-from actions.prepare_photo_archive import PreparePhotoArchive
 from actions.passport_protection import PassportProtection
+from actions.prepare_photo_archive import PreparePhotoArchive
 
 
 class UserConsoleInteraction:

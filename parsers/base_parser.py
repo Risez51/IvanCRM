@@ -15,7 +15,14 @@ class XmlParser:
     @staticmethod
     def set_name_product(node, product):
         if node.firstChild:
-            product.set_name(str(node.firstChild.data))
+            name = str(node.firstChild.data)
+            product.set_name(name)
+            product.set_site_name(name)
+
+    @staticmethod
+    def set_unit_product(node, product):
+        if node.firstChild:
+            product.set_unit(node.firstChild.data)
 
     @staticmethod
     def set_purchase_price_product(node, product):
@@ -26,3 +33,8 @@ class XmlParser:
     def set_quantity_product(node, product):
         if node.firstChild:
             product.set_quantity(int(node.firstChild.data))
+
+
+class ExcelParser:
+    def __init__(self):
+        pass

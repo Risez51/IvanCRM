@@ -17,7 +17,7 @@ class PreparePhotoArchive(Storage):
         self.__result_dir_path = result_dir_path
 
     def start(self):
-        articles_list_without_photo = self.get_data_from_excel(self.__file_with_articles_path)
+        articles_list_without_photo = self.get_dataframe(self.__file_with_articles_path).to_numpy()
         dirs_list_with_photo = self.get_filenames(self.__dir_with_photo_path)
 
         for row in articles_list_without_photo:
