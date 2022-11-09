@@ -128,3 +128,7 @@ class Storage:
             return filename.replace('.docx', '.pdf')
         else:
             return filename
+
+    @staticmethod
+    def replace_xl_to_chk(filename: str) -> str:
+        return filename.replace('.xlsx', '.chk')

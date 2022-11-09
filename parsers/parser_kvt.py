@@ -5,9 +5,8 @@ import pandas as pd
 
 class ParserKVT:
 
-    def parse_dataframe(self):
+    def get_result(self) -> pd.DataFrame:
         df_stock = Storage().get_dataframe(pp.KVT_LINK, start_row=1)
-
         self.normalize_dataframe(df_stock)
 
         df_result = pd.DataFrame()
@@ -23,14 +22,15 @@ class ParserKVT:
         df_result['Код группы'] = ''
         df_result['Наименование для сайтов'] = df_stock['Наименование']
         df_result['Кратность'] = ''
-
-        Storage().to_excel(df_result, 'kvt.xlsx')
+        return df_result
 
     @staticmethod
-    def normalize_dataframe(df):
+    def normalize_dataframe(df: pd.DataFrame):
         df.dropna(axis=0,
                   subset=['код товара',
                           'Наименование',
                           'на складе (кол-во)',
                           'РРЦ'],
                   inplace=True)
+        df['на складе (кол-во)'] = pd.to_numeric(df['на складе (кол-во)'])
+        df.loc[(df['на складе (кол-во)'] > 1_000_000), 'на складе (кол-во)'] = 100_000
