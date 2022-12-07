@@ -1,4 +1,4 @@
-from parsers import parser_a4, parser_torg7, parser_kvt
+from parsers import parser_a4, parser_torg7, parser_kvt, parser_torg2
 from file_manager.storage import Storage
 from datetime import datetime
 
@@ -27,6 +27,11 @@ class SupplierParser:
     def create_torg7(self):
         dataframe = parser_torg7.ParserTorg7().get_result()
         filename = f"{self.output_dir}\\Торг7_ЧК от {self.today}.xlsx"
+        self.__create_chk_file(dataframe, filename)
+
+    def create_torg2(self):
+        dataframe = parser_torg2.ParserTorg2().get_result()
+        filename = f"{self.output_dir}\\Торг2_ЧК от {self.today}.xlsx"
         self.__create_chk_file(dataframe, filename)
 
     @staticmethod
