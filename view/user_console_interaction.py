@@ -38,13 +38,16 @@ class UserConsoleInteraction:
         actions = {'1': sp.create_a4,
                    '2': sp.create_kvt,
                    '3': sp.create_torg7,
-                   '4': sp.create_all}
+                   '4': sp.create_torg2,
+                   '5': sp.create_yu1,
+                   '6': sp.create_all}
 
         if action_value in actions:
-            return actions[action_value]()
+            actions[action_value]()
+            #self.start()
         else:
             print('Такого действия нет')
-            return self.__parse_suppliers()
+            self.__parse_suppliers()
 
     @staticmethod
     def __get_prepare_photo_archive():
@@ -71,5 +74,7 @@ class UserConsoleInteraction:
         print('#1 - Парсинг А4_ИД')
         print('#2 - Парсинг КВТ_СИТ')
         print('#3 - Парсинг ТОРГ7_ЧК')
-        print('#4 - Парсинг всех вышеперечисленных')
+        print('#4 - Парсинг ТОРГ2_ЧК')
+        print('#5 - Парсинг Ю1_ИД')
+        print('#6 - Парсинг Торг7, А4, КВТ')
         print('#0 - Вернуться назад')

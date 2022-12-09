@@ -27,7 +27,7 @@ class ParserTorg2:
     @staticmethod
     def normalize_dataframe(df: pd.DataFrame):
         df.loc[(df['Цена перечислением без НДС'] == 'договор.'), 'Цена перечислением без НДС'] = pd.NA
-        df[~df['Наименование'].str.contains('Крин|КРИН|Sandvik|SANDVIK', na=False) == False] = pd.NA
+        df[df['Наименование'].str.contains('|'.join(pp.TORG2_EXCEPTIONS_BRANDS), na=False, case=False)] = pd.NA
         df.dropna(axis=0,
                   subset=['артикул',
                           'Наименование',

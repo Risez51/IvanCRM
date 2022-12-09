@@ -5,8 +5,8 @@ from actions.supplier_parser import SupplierParser
 
 
 def main():
-    #UserConsoleInteraction().start()
-    SupplierParser('C:/Users/OperTech/Desktop/тест/Торг2_ЧК').create_torg2()
+    UserConsoleInteraction().start()
+    #SupplierParser('C:/Users/OperTech/Desktop/тест/Торг2_ЧК').create_torg2()
 
 
 if __name__ == '__main__':
