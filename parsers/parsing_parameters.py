@@ -12,6 +12,8 @@ A4_MARGIN = 1.4
 TORG7_MARGIN = 1.35
 TORG2_MARGIN = 1.5
 YU1_MARGIN = 1.5
+P1_MARGIN = 1.5
+N1_MARGIN = 1.5
 
 # taxes:
 NDS = 1.2
@@ -22,3 +24,5 @@ TORG2_EXCEPTIONS_BRANDS = ['крин', 'sandvik']
 # needful products
 YU1_NEEDFUL_BRANDS = ['баз', 'белгород', 'mirax', 'сибин', 'зубр', 'луга', 'низ', 'тевтон', 'труд вача', 'dexx',
                          'grinda', 'keter', 'kraftool', 'legioner', 'olfa', 'raco', 'stayer', 'uragan']
+P1_NEEDFUL_BRANDS = ['jonnesway', 'ombra', 'thorvik']
+N1_NEEDFUL_BRANDS = ['huter', 'вихрь', 'ресанта']

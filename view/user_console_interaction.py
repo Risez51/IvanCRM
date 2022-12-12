@@ -40,7 +40,9 @@ class UserConsoleInteraction:
                    '3': sp.create_torg7,
                    '4': sp.create_torg2,
                    '5': sp.create_yu1,
-                   '6': sp.create_all}
+                   '6': sp.create_p1,
+                   '7': sp.create_n1,
+                   '8': sp.create_all}
 
         if action_value in actions:
             actions[action_value]()
@@ -76,5 +78,7 @@ class UserConsoleInteraction:
         print('#3 - Парсинг ТОРГ7_ЧК')
         print('#4 - Парсинг ТОРГ2_ЧК')
         print('#5 - Парсинг Ю1_ИД')
-        print('#6 - Парсинг Торг7, А4, КВТ')
+        print('#6 - Парсинг П1_ИД')
+        print('#7 - Парсинг Н1_ИД')
+        print('#8 - Парсинг Торг7, А4, КВТ')
         print('#0 - Вернуться назад')

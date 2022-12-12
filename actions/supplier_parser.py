@@ -1,4 +1,4 @@
-from parsers import parser_a4, parser_torg7, parser_kvt, parser_torg2, parser_yu1_id
+from parsers import parser_a4, parser_torg7, parser_kvt, parser_torg2, parser_yu1_id, parser_p1_id, parser_n1_id
 from file_manager.storage import Storage
 from datetime import datetime
 
@@ -37,6 +37,16 @@ class SupplierParser:
     def create_yu1(self):
         dataframe = parser_yu1_id.ParserYu1().get_result()
         filename = f"{self.output_dir}\\Ю1_ИД от {self.today}.xlsx"
+        self.__create_chk_file(dataframe, filename)
+
+    def create_p1(self):
+        dataframe = parser_p1_id.ParserP1().get_result()
+        filename = f"{self.output_dir}\\П1_ИД от {self.today}.xlsx"
+        self.__create_chk_file(dataframe, filename)
+
+    def create_n1(self):
+        dataframe = parser_n1_id.ParserN1().get_result()
+        filename = f"{self.output_dir}\\Н1_ИД от {self.today}.xlsx"
         self.__create_chk_file(dataframe, filename)
 
     @staticmethod
