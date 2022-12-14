@@ -11,6 +11,7 @@ from convertors.img_to_pdf import ImgToPdf
 from convertors.watermark_for_pdf import Watermark
 from file_manager.storage import Storage
 
+
 class PassportProtection:
     def __init__(self, input_files_path: str):
         self.__input_files_path = input_files_path
@@ -23,6 +24,12 @@ class PassportProtection:
         incoming_passport_files = Storage().get_passport_type_files(self.__input_files_path)
         for passport_file in incoming_passport_files:
             self.__create_secure_passport(passport_file)
+        Storage().delete_file_folder(self.__temporary_pdf_path)
+        print(f'\nОбработка завершена, файлы находятся в папке {self.__protected_pdf_path}')
+
+    def start_one(self, file_name):
+        self.__create_temporary_folders()
+        self.__create_secure_passport(file_name)
         Storage().delete_file_folder(self.__temporary_pdf_path)
         print(f'\nОбработка завершена, файлы находятся в папке {self.__protected_pdf_path}')
 

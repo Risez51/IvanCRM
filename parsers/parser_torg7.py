@@ -10,6 +10,7 @@ class ParserTorg7(XmlParser):
         self.xml_link = pp.TOG7_LINK
 
     def get_result(self):
+
         xml_file = Storage().get_xml_file(self.xml_link)
         items = self.get_elements_by_tag_name(xml_file, 'item')
         return self.__get_products_list(items)
