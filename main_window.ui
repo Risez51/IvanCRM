@@ -18,9 +18,184 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="cheescake_parser_tab">
+       <attribute name="title">
+        <string>Парсинг для Cheescake</string>
+       </attribute>
+       <widget class="QTreeWidget" name="manual_parser_tree_widget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>50</y>
+          <width>571</width>
+          <height>461</height>
+         </rect>
+        </property>
+        <attribute name="headerDefaultSectionSize">
+         <number>300</number>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>Файл</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Поставщик</string>
+         </property>
+        </column>
+       </widget>
+       <widget class="Line" name="line">
+        <property name="geometry">
+         <rect>
+          <x>593</x>
+          <y>0</y>
+          <width>20</width>
+          <height>551</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+       <widget class="QLabel" name="manual_parser_label">
+        <property name="geometry">
+         <rect>
+          <x>120</x>
+          <y>10</y>
+          <width>291</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Ручной парсинг прайсов</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="auto_parser_label">
+        <property name="geometry">
+         <rect>
+          <x>620</x>
+          <y>10</y>
+          <width>381</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <pointsize>16</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Автоматический парсинг прайсов</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="link_torg7_line_edit">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>70</y>
+          <width>231</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QLabel" name="torg7_label">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>50</y>
+          <width>141</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Торг7 - ссылка на xml файл</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="parser_torg7_push_button">
+        <property name="geometry">
+         <rect>
+          <x>870</x>
+          <y>70</y>
+          <width>131</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Спарсить Торг7_ЧК</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_2">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>110</y>
+          <width>391</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="link_kvt_line_edit">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>150</y>
+          <width>231</width>
+          <height>20</height>
+         </rect>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="parser_kvt_push_button">
+        <property name="geometry">
+         <rect>
+          <x>870</x>
+          <y>150</y>
+          <width>131</width>
+          <height>23</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Спарсить КВТ_СИТ</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="kvt_label">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>130</y>
+          <width>161</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>КВТ_СИТ - ссылка на xls файл</string>
+        </property>
+       </widget>
+       <widget class="Line" name="line_3">
+        <property name="geometry">
+         <rect>
+          <x>610</x>
+          <y>200</y>
+          <width>391</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="prepare_passport_tab">
        <attribute name="title">
         <string>Защита паспортов</string>
        </attribute>
@@ -28,7 +203,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
-           <widget class="QLabel" name="label">
+           <widget class="QLabel" name="prepare_passport_label">
             <property name="font">
              <font>
               <pointsize>16</pointsize>
@@ -45,10 +220,29 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="listWidget"/>
+           <widget class="QTreeWidget" name="passport_tree_widget">
+            <attribute name="headerDefaultSectionSize">
+             <number>300</number>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>Расположение</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Файл</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Статус</string>
+             </property>
+            </column>
+           </widget>
           </item>
           <item>
-           <widget class="QLabel" name="label_2">
+           <widget class="QLabel" name="result_path_label">
             <property name="text">
              <string>Путь, где будет создана папка с результатом</string>
             </property>
@@ -57,14 +251,14 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
-             <widget class="QLineEdit" name="resultPathLineEdit">
+             <widget class="QLineEdit" name="result_path_line_edit">
               <property name="readOnly">
                <bool>true</bool>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="addResultPathPushButton">
+             <widget class="QPushButton" name="set_result_path_push_button">
               <property name="text">
                <string>Выбрать</string>
               </property>
@@ -75,7 +269,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QPushButton" name="addFilesPushButton">
+             <widget class="QPushButton" name="add_passport_files_push_button">
               <property name="text">
                <string>Добавить файлы</string>
               </property>
@@ -98,7 +292,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="deletePushButton">
+             <widget class="QPushButton" name="delete_selected_passport_file_push_button">
               <property name="text">
                <string>Удалить выбранный</string>
               </property>
@@ -118,7 +312,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="startPushButton">
+             <widget class="QPushButton" name="start_passport_protection_push_button">
               <property name="font">
                <font>
                 <weight>75</weight>
@@ -135,11 +329,6 @@
          </layout>
         </item>
        </layout>
-      </widget>
-      <widget class="QWidget" name="tab_2">
-       <attribute name="title">
-        <string>Парсинг для Cheescake</string>
-       </attribute>
       </widget>
      </widget>
     </item>

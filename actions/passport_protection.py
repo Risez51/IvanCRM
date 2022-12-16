@@ -13,11 +13,11 @@ from file_manager.storage import Storage
 
 
 class PassportProtection:
-    def __init__(self, input_files_path: str):
+    def __init__(self, input_files_path: str, output_dir_path: str):
         self.__input_files_path = input_files_path
         self.__temporary_pdf_path = input_files_path + '\\temporary_pdf'
         self.__temporary_jpg_path = input_files_path + '\\temporary_jpg'
-        self.__protected_pdf_path = input_files_path + '\\Паспорта с защитой'
+        self.__protected_pdf_path = output_dir_path + '\\Паспорта с защитой'
 
     def start(self):
         self.__create_temporary_folders()
