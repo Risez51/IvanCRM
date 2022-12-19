@@ -14,6 +14,7 @@ from file_manager.storage import Storage
 
 class PassportProtection:
     def __init__(self, input_files_path: str, output_dir_path: str):
+
         self.__input_files_path = input_files_path
         self.__temporary_pdf_path = input_files_path + '\\temporary_pdf'
         self.__temporary_jpg_path = input_files_path + '\\temporary_jpg'
@@ -30,6 +31,7 @@ class PassportProtection:
     def start_one(self, file_name):
         self.__create_temporary_folders()
         self.__create_secure_passport(file_name)
+
         Storage().delete_file_folder(self.__temporary_pdf_path)
         print(f'\nОбработка завершена, файлы находятся в папке {self.__protected_pdf_path}')
 
