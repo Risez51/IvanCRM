@@ -19,8 +19,8 @@ class SupplierParser:
         filename = f"{self.output_dir}\\А4_ИД от {self.today}.xlsx"
         self.__create_chk_file(dataframe, filename)
 
-    def create_kvt(self):
-        dataframe = parser_kvt.ParserKVT().get_result()
+    def create_kvt(self, file_path: str):
+        dataframe = parser_kvt.ParserKVT(file_path).get_result()
         filename = f"{self.output_dir}\\КВТ_СИТ от {self.today}.xlsx"
         self.__create_chk_file(dataframe, filename)
 
@@ -29,18 +29,18 @@ class SupplierParser:
         filename = f"{self.output_dir}\\Торг7_ЧК от {self.today}.xlsx"
         self.__create_chk_file(dataframe, filename)
 
-    def create_torg2(self):
-        dataframe = parser_torg2.ParserTorg2().get_result()
+    def create_torg2(self, file_path: str):
+        dataframe = parser_torg2.ParserTorg2(file_path).get_result()
         filename = f"{self.output_dir}\\Торг2_ЧК от {self.today}.xlsx"
         self.__create_chk_file(dataframe, filename)
 
-    def create_yu1(self):
-        dataframe = parser_yu1_id.ParserYu1().get_result()
+    def create_yu1(self, file_path: str):
+        dataframe = parser_yu1_id.ParserYu1(file_path).get_result()
         filename = f"{self.output_dir}\\Ю1_ИД от {self.today}.xlsx"
         self.__create_chk_file(dataframe, filename)
 
-    def create_p1(self):
-        dataframe = parser_p1_id.ParserP1().get_result()
+    def create_p1(self, file_path: str):
+        dataframe = parser_p1_id.ParserP1(file_path).get_result()
         filename = f"{self.output_dir}\\П1_ИД от {self.today}.xlsx"
         self.__create_chk_file(dataframe, filename)
 
