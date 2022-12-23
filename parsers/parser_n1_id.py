@@ -5,19 +5,14 @@ import pandas as pd
 
 
 class ParserN1:
-    def get_result(self) -> pd.DataFrame:
-        fileslist = Storage().get_filenames(pp.LOCAL_PRICE_PATH + '/Н1_ИД/')
-
-        df_price = self.get_price_dataframe(fileslist)
-        df_stock = self.get_stock_dataframe(fileslist)
-        df_rrc = self.get_rrc_dataframe(fileslist)
-
+    def get_result(self, files_list: list) -> pd.DataFrame:
+        df_price = self.get_price_dataframe(files_list)
+        df_stock = self.get_stock_dataframe(files_list)
+        df_rrc = self.get_rrc_dataframe(files_list)
         merged_dataframe = self.merge_prices(df_price, df_rrc, df_stock)
         self.normalize_dataframe(merged_dataframe)
-
         df_result = self.get_result_dataframe(merged_dataframe)
         df_result.drop_duplicates(subset=['Артикул'], inplace=True)
-
         return df_result
 
     @staticmethod
@@ -61,16 +56,16 @@ class ParserN1:
     def get_price_dataframe(fileslist: list) -> pd.DataFrame:
         for filename in fileslist:
             if 'мелкий' in filename.lower():
-                return Storage().get_dataframe(pp.LOCAL_PRICE_PATH + '/Н1_ИД/' + filename, start_row=2)
+                return Storage().get_dataframe(filename, start_row=2)
 
     @staticmethod
     def get_stock_dataframe(fileslist: list) -> pd.DataFrame:
         for filename in fileslist:
             if 'остатки' in filename.lower():
-                return Storage().get_dataframe(pp.LOCAL_PRICE_PATH + '/Н1_ИД/' + filename, start_row=7)
+                return Storage().get_dataframe(filename, start_row=7)
 
     @staticmethod
     def get_rrc_dataframe(fileslist: list) -> pd.DataFrame:
         for filename in fileslist:
             if 'ррц' in filename.lower() or 'мдц' in filename.lower():
-                return Storage().get_dataframe(pp.LOCAL_PRICE_PATH + '/Н1_ИД/' + filename, start_row=1)
+                return Storage().get_dataframe(filename, start_row=1)

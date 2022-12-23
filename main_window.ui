@@ -128,13 +128,6 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="test_push_button">
-              <property name="text">
-               <string>test</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <spacer name="horizontalSpacer">
               <property name="orientation">
                <enum>Qt::Horizontal</enum>
@@ -196,9 +189,9 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="test_parser_push_button">
+               <widget class="QPushButton" name="test_push_button">
                 <property name="text">
-                 <string>TEST</string>
+                 <string>test</string>
                 </property>
                </widget>
               </item>
@@ -228,8 +221,21 @@
                <layout class="QHBoxLayout" name="horizontalLayout_6">
                 <item>
                  <widget class="QPushButton" name="add_price_push_button">
+                  <property name="toolTip">
+                   <string>Для парсинга 1 файла</string>
+                  </property>
                   <property name="text">
                    <string>Добавить</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="add_multiple_price_push_button">
+                  <property name="toolTip">
+                   <string>Для поставщиков из нескольких прайсов</string>
+                  </property>
+                  <property name="text">
+                   <string>Добавить несколько файлов</string>
                   </property>
                  </widget>
                 </item>
@@ -247,7 +253,7 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="delete_price_push_botton">
+                 <widget class="QPushButton" name="delete_price_push_button">
                   <property name="text">
                    <string>Удалить</string>
                   </property>
@@ -345,41 +351,83 @@
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <widget class="Line" name="line_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0,0">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <item alignment="Qt::AlignHCenter">
+                 <widget class="QLabel" name="kvt_label">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>КВТ_СИТ - ссылка на xls файл</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLineEdit" name="link_kvt_line_edit"/>
+                </item>
+                <item alignment="Qt::AlignRight">
+                 <widget class="QPushButton" name="parse_kvt_push_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>Спарсить КВТ_СИТ </string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_4">
                 <property name="spacing">
                  <number>6</number>
                 </property>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_4">
-                  <property name="spacing">
-                   <number>0</number>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <item alignment="Qt::AlignHCenter">
+                 <widget class="QLabel" name="torg7_label">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
                   </property>
-                  <property name="leftMargin">
+                  <property name="text">
+                   <string>Торг7 - ссылка на xml файл</string>
+                  </property>
+                  <property name="margin">
                    <number>5</number>
                   </property>
-                  <item>
-                   <widget class="QLabel" name="torg7_label">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string>Торг7 - ссылка на xml файл</string>
-                    </property>
-                    <property name="margin">
-                     <number>5</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="link_torg7_line_edit"/>
-                  </item>
-                 </layout>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="parser_torg7_push_button">
+                 <widget class="QLineEdit" name="link_torg7_line_edit"/>
+                </item>
+                <item alignment="Qt::AlignRight">
+                 <widget class="QPushButton" name="parse_torg7_push_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="text">
                    <string>Спарсить Торг7_ЧК</string>
                   </property>
@@ -388,41 +436,33 @@
                </layout>
               </item>
               <item>
-               <widget class="Line" name="line_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_8">
-                <property name="spacing">
-                 <number>6</number>
-                </property>
-                <item>
-                 <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0">
-                  <item>
-                   <widget class="QLabel" name="kvt_label">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string>КВТ_СИТ - ссылка на xls файл</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLineEdit" name="link_kvt_line_edit"/>
-                  </item>
-                 </layout>
+               <layout class="QVBoxLayout" name="verticalLayout_9">
+                <item alignment="Qt::AlignHCenter">
+                 <widget class="QLabel" name="a4_label">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>А4_ИД - ссылка на xml файл</string>
+                  </property>
+                 </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="parser_kvt_push_button">
+                 <widget class="QLineEdit" name="link_a4_line_edit"/>
+                </item>
+                <item alignment="Qt::AlignRight">
+                 <widget class="QPushButton" name="parse_a4_push_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
                   <property name="text">
-                   <string>Спарсить КВТ_СИТ </string>
+                   <string>Спарсить А4_ИД     </string>
                   </property>
                  </widget>
                 </item>

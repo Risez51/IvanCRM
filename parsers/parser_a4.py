@@ -6,8 +6,10 @@ from parsers.base_parser import XmlParser
 
 class ParserA4(XmlParser):
 
-    def __init__(self):
-        self.xml_link = pp.A4_LINK
+    def __init__(self, file_path: str):
+        self.xml_link = file_path
+        if self.xml_link == '':
+            self.xml_link = pp.A4_LINK
 
     def get_result(self) -> list[dict]:
         xml_file = Storage().get_xml_file(self.xml_link)

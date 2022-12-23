@@ -9,8 +9,6 @@ class ParserKVT(ResultDataFrame):
         super().__init__()
         # ВРЕМЕННО ПОЛУЧАЮ ФАЙЛ ПО ССЫЛКЕ С САЙТА
         # ТРЕБУЕТСЯ РЕАЛИЗОВАТЬ ВАРИАЦИЮ ССЫЛКА/КОНКРЕТНЫЙ ФАЙЛ
-        if file_path == '':
-            file_path = pp.KVT_LINK
         self.__df_stock = Storage().get_dataframe(file_path, start_row=1)
 
     def get_result(self) -> pd.DataFrame:

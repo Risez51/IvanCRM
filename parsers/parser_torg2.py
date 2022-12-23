@@ -34,4 +34,4 @@ class ParserTorg2(ResultDataFrame):
                                        'Цена перечислением без НДС'],
                                inplace=True)
         self.__df_stock['Количество'] = pd.to_numeric(self.__df_stock['Количество'])
-        self.__df_stock.loc[(df['Количество'] > 1_000_000), 'Количество'] = 100_000
+        self.__df_stock.loc[(self.__df_stock['Количество'] > 1_000_000), 'Количество'] = 100_000

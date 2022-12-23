@@ -48,7 +48,7 @@ class PassportProtectionController:
             output_dir = self.ui.result_path_line_edit.text()
             files_dict = self.get_tree_items()
             if files_dict:
-                self.my_worker.set_params(files_dict, output_dir)
+                self.my_worker.set_manual_parser_params(files_dict, output_dir)
                 self.thread.start()
             else:
                 self.show_message('Ошибка', 'Добавьте файлы для обработки')

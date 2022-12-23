@@ -6,11 +6,12 @@ from parsers.base_parser import XmlParser
 
 class ParserTorg7(XmlParser):
 
-    def __init__(self):
-        self.xml_link = pp.TOG7_LINK
+    def __init__(self, file_path):
+        self.xml_link = file_path
+        if self.xml_link == '':
+            self.xml_link = pp.TOG7_LINK
 
     def get_result(self):
-
         xml_file = Storage().get_xml_file(self.xml_link)
         items = self.get_elements_by_tag_name(xml_file, 'item')
         return self.__get_products_list(items)
