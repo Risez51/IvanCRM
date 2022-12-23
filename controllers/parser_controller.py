@@ -95,21 +95,21 @@ class ParserController:
         if self.ui.result_path_parser_line_edit.text() != '':
             link = self.ui.link_kvt_line_edit.text()
             output_path = self.ui.result_path_parser_line_edit.text()
-            self.my_worker_automatic.set_automatic_parser_params('КВТ_СИТ', link, output_path)
+            self.my_worker_automatic.set_automatic_parser_params(vc.KVT_NAME, link, output_path)
             self.thread_auto_parser.start()
 
     def parse_torg7(self):
         if self.ui.result_path_parser_line_edit.text() != '':
             link = self.ui.link_torg7_line_edit.text()
             output_path = self.ui.result_path_parser_line_edit.text()
-            self.my_worker_automatic.set_automatic_parser_params('Торг7_ЧК', link, output_path)
+            self.my_worker_automatic.set_automatic_parser_params(vc.TORG7_NAME, link, output_path)
             self.thread_auto_parser.start()
 
     def parse_a4(self):
         if self.ui.result_path_parser_line_edit.text() != '':
             link = self.ui.link_a4_line_edit.text()
             output_path = self.ui.result_path_parser_line_edit.text()
-            self.my_worker_automatic.set_automatic_parser_params('А4_ИД', link, output_path)
+            self.my_worker_automatic.set_automatic_parser_params(vc.A4_NAME, link, output_path)
             self.thread_auto_parser.start()
     # AUTOMATIC PARSER ELEMENTS------------------------------------------------
 
@@ -195,22 +195,22 @@ class ParserController:
     # THREAD SLOTS AUTOMATIC PARSER
     def on_automatic_parser_started(self, supplier_name):
         color = 'QLineEdit {background: ' + vc.STATUS_PROCESSING_COLOR + ';}'
-        if supplier_name == 'КВТ_СИТ':
+        if supplier_name == vc.KVT_NAME:
             self.ui.link_kvt_line_edit.setStyleSheet(color)
             self.ui.parse_kvt_push_button.setEnabled(False)
-        elif supplier_name == 'Торг7_ЧК':
+        elif supplier_name == vc.TORG7_NAME:
             self.ui.link_torg7_line_edit.setStyleSheet(color)
-        elif supplier_name == 'А4_ИД':
+        elif supplier_name == vc.A4_NAME:
             self.ui.link_a4_line_edit.setStyleSheet(color)
 
     def on_automatic_parser_finished(self, supplier_name):
         color = 'QLineEdit {background: ' + vc.STATUS_READY_COLOR + ';}'
-        if supplier_name == 'КВТ_СИТ':
+        if supplier_name == vc.KVT_NAME:
             self.ui.link_kvt_line_edit.setStyleSheet(color)
             self.ui.parse_kvt_push_button.setEnabled(True)
-        elif supplier_name == 'Торг7_ЧК':
+        elif supplier_name == vc.TORG7_NAME:
             self.ui.link_torg7_line_edit.setStyleSheet(color)
-        elif supplier_name == 'А4_ИД':
+        elif supplier_name == vc.A4_NAME:
             self.ui.link_a4_line_edit.setStyleSheet(color)
         self.thread_auto_parser.quit()
 

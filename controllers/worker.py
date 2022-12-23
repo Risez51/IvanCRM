@@ -4,6 +4,7 @@ from PyQt5 import QtCore
 from controllers import view_config as vc
 from actions.passport_protection import PassportProtection
 from actions.supplier_parser import SupplierParser
+from controllers import view_config as vc
 
 
 class Worker(QtCore.QObject):
@@ -44,18 +45,18 @@ class Worker(QtCore.QObject):
         for item_index, file_dict in self.files.items():
             self.manual_supplier_parser_item_started.emit(item_index)
             for supplier_name, file_path in file_dict.items():
-                if supplier_name == 'КВТ_СИТ':
+                if supplier_name == vc.KVT_NAME:
                     supplier_parser.create_kvt(file_path)
-                elif supplier_name == 'Н1_ИД':
+                elif supplier_name == vc.N1_NAME:
                     files_list = self.get_files_list_for_multiple_parsing(file_path)
                     supplier_parser.create_n1(files_list)
-                elif supplier_name == 'П1_ИД':
+                elif supplier_name == vc.P1_NAME:
                     supplier_parser.create_p1(file_path)
-                elif supplier_name == 'Торг2_ЧК':
+                elif supplier_name == vc.TORG2_NAME:
                     supplier_parser.create_torg2(file_path)
-                elif supplier_name == 'Торг7_ЧК':
+                elif supplier_name == vc.TORG7_NAME:
                     supplier_parser.create_torg7(file_path)
-                elif supplier_name == 'Ю1_ИД':
+                elif supplier_name == vc.YU1_NAME:
                     supplier_parser.create_yu1(file_path)
                 self.manual_supplier_parser_item_finished.emit(item_index)
         self.manual_supplier_parser_finished.emit()
@@ -70,11 +71,11 @@ class Worker(QtCore.QObject):
     def run_automatic_supplier_parser(self):
         self.automatic_supplier_parser_started.emit(self.supplier_name)
         supplier_parser = SupplierParser(self.output_path)
-        if self.supplier_name == 'КВТ_СИТ':
+        if self.supplier_name == vc.KVT_NAME:
             supplier_parser.create_kvt(self.supplier_link)
-        elif self.supplier_name == 'Торг7_ЧК':
+        elif self.supplier_name == vc.TORG7_NAME:
             supplier_parser.create_torg7(self.supplier_link)
-        elif self.supplier_name == 'А4_ИД':
+        elif self.supplier_name == vc.A4_NAME:
             supplier_parser.create_a4(self.supplier_link)
         self.automatic_supplier_parser_finished.emit(self.supplier_name)
 
