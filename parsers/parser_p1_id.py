@@ -5,11 +5,9 @@ import pandas as pd
 
 
 class ParserP1(ResultDataFrame):
-    def __init__(self):
+    def __init__(self, file_path: str):
         super().__init__()
-        path_with_prices = pp.LOCAL_PRICE_PATH + '/П1_ИД/'
-        files_list = Storage().get_filenames(pp.LOCAL_PRICE_PATH + '/П1_ИД/')
-        self.__df_stock = Storage().get_dataframe(path_with_prices + '/' + files_list[0])
+        self.__df_stock = Storage().get_dataframe(file_path)
 
     def get_result(self) -> pd.DataFrame:
         self.__normalize_dataframe()

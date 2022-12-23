@@ -35,9 +35,14 @@ class Storage:
                                                                       skiprows=start_row)
 
     def get_xml_file(self, url: str) -> minidom.Document:
-        dom = minidom.parseString(self.get_downloaded_file_to_read(url))
-        dom.normalize()
-        return dom
+        if 'http' in url:
+            dom = minidom.parseString(self.get_downloaded_file_to_read(url))
+            dom.normalize()
+            return dom
+        else:
+            dom = minidom.parse(url)
+            dom.normalize()
+            return dom
 
     # get filenames list .doc, .docx, .pdf format
     def get_passport_type_files(self, dir_path: str):
