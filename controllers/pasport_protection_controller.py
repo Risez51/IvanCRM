@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QMessageBox, QFileDialog, QTreeWidgetItem
 from PyQt5 import QtCore
 from PyQt5.QtGui import QColor
 from controllers import worker
-from controllers import view_config as vc
+from configs import config
 
 
 class PassportProtectionController:
@@ -28,7 +28,7 @@ class PassportProtectionController:
 
     # Added files (tree widget items) in tree widget
     def on_add_passport_files_push_button(self):
-        opened_files = QFileDialog.getOpenFileNames(None, 'Выберите файлы', '', vc.PASSPORT_FILE_TYPES)
+        opened_files = QFileDialog.getOpenFileNames(None, 'Выберите файлы', '', config.PASSPORT_FILE_TYPES)
         for file_item in opened_files[0]:
             tree_item = QTreeWidgetItem(self.ui.passport_tree_widget)
             dir_path = os.path.abspath(os.path.dirname(file_item))
@@ -60,11 +60,11 @@ class PassportProtectionController:
 
     # Set status 'process'
     def on_file_protect_started(self, item_index: int, message: str):
-        self.set_tree_item_status(item_index, message, vc.STATUS_PROCESSING_COLOR)
+        self.set_tree_item_status(item_index, message, config.STATUS_PROCESSING_COLOR)
 
     # Set status 'finished'
     def on_file_protect_finished(self, item_index: int, message: str):
-        self.set_tree_item_status(item_index, message, vc.STATUS_READY_COLOR)
+        self.set_tree_item_status(item_index, message, config.STATUS_READY_COLOR)
 
     def on_set_result_path_push_button(self):
         output_dir_path = os.path.abspath(QFileDialog.getExistingDirectory(None, 'Выберите папку...'))

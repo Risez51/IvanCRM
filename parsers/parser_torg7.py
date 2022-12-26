@@ -1,7 +1,7 @@
 from parsers.product import Product
 from file_manager.storage import Storage
-import parsers.parsing_parameters as pp
 from parsers.base_parser import XmlParser
+from configs import config
 
 
 class ParserTorg7(XmlParser):
@@ -9,7 +9,8 @@ class ParserTorg7(XmlParser):
     def __init__(self, file_path):
         self.xml_link = file_path
         if self.xml_link == '':
-            self.xml_link = pp.TOG7_LINK
+            self.xml_link = config.TOG7_LINK
+        self.headers = config.TORG7_HEADERS
 
     def get_result(self):
         xml_file = Storage().get_xml_file(self.xml_link)
@@ -28,15 +29,15 @@ class ParserTorg7(XmlParser):
         return products
 
     def __set_product_values(self, node, product):
-        if node.tagName == 'no':
+        if node.tagName == self.headers.article:
             self.set_article_product(node, product)
-        elif node.tagName == 'price':
+        elif node.tagName == self.headers.purchase_price:
             self.__set_product_prices(node, product)
-        elif node.tagName == 'title':
+        elif node.tagName == self.headers.name:
             self.set_name_product(node, product)
-        elif node.tagName == 'unit':
+        elif node.tagName == self.headers.unit:
             self.set_unit_product(node, product)
-        elif node.tagName == 'free':
+        elif node.tagName == self.headers.quantity:
             self.set_quantity_product(node, product)
 
     @staticmethod
@@ -46,7 +47,7 @@ class ParserTorg7(XmlParser):
     @staticmethod
     def __set_product_prices(node, product):
         if node.firstChild:
-            purchase_price = float(node.firstChild.data) / pp.NDS
-            selling_price = purchase_price * pp.TORG7_MARGIN
+            purchase_price = float(node.firstChild.data) / config.NDS
+            selling_price = purchase_price * config.TORG7_MARGIN
             product.set_purchase_price(purchase_price)
             product.set_selling_price(selling_price)

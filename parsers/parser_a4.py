@@ -1,15 +1,15 @@
 from parsers.product import Product
 from file_manager.storage import Storage
-import parsers.parsing_parameters as pp
 from parsers.base_parser import XmlParser
+from configs import config
 
 
 class ParserA4(XmlParser):
-
     def __init__(self, file_path: str):
         self.xml_link = file_path
         if self.xml_link == '':
-            self.xml_link = pp.A4_LINK
+            self.xml_link = config.A4_LINK
+        self.headers = config.A4_HEADERS
 
     def get_result(self) -> list[dict]:
         xml_file = Storage().get_xml_file(self.xml_link)
@@ -29,13 +29,13 @@ class ParserA4(XmlParser):
         return products
 
     def __set_product_values(self, product: Product, node, offer_id):
-        if node.tagName == 'vendorCode':
+        if node.tagName == self.headers.article:
             self.__set_article_product(node, product, offer_id)
-        elif node.tagName == 'name':
+        elif node.tagName == self.headers.name:
             self.set_name_product(node, product)
-        elif node.tagName == 'price-dealer':
+        elif node.tagName == self.headers.purchase_price:
             self.__set_price_product(node, product)
-        elif node.tagName == 'gk_balance_available':
+        elif node.tagName == self.headers.quantity:
             self.set_quantity_product(node, product)
 
     @staticmethod
@@ -47,9 +47,9 @@ class ParserA4(XmlParser):
     @staticmethod
     def __set_price_product(node, product: Product):
         if node.firstChild:
-            purchase_price = float(node.firstChild.data) / pp.NDS
+            purchase_price = float(node.firstChild.data) / config.NDS
             product.set_purchase_price(purchase_price)
-            product.set_selling_price(purchase_price * pp.A4_MARGIN)
+            product.set_selling_price(purchase_price * config.A4_MARGIN)
 
     @staticmethod
     def __is_product(product: Product):

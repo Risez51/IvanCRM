@@ -45,7 +45,7 @@ class SupplierParser:
         self.__create_chk_file(dataframe, filename)
 
     def create_n1(self, files_list: list):
-        dataframe = parser_n1_id.ParserN1().get_result(files_list)
+        dataframe = parser_n1_id.ParserN1(files_list).get_result()
         filename = f"{self.output_dir}\\Н1_ИД от {self.today}.xlsx"
         self.__create_chk_file(dataframe, filename)
 

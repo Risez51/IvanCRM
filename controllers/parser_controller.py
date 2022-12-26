@@ -1,11 +1,10 @@
 import main_window
 import os
-from controllers import view_config as vc
 from PyQt5.QtWidgets import QMessageBox, QFileDialog, QTreeWidgetItem, QComboBox
 from PyQt5 import QtCore
 from PyQt5.QtGui import QColor
 from controllers import worker
-from parsers import parsing_parameters as pp
+from configs import config
 
 
 class ParserController:
@@ -29,7 +28,6 @@ class ParserController:
         self.my_worker_automatic.automatic_supplier_parser_started.connect(self.on_automatic_parser_started)
         self.my_worker_automatic.automatic_supplier_parser_finished.connect(self.on_automatic_parser_finished)
         self.thread_auto_parser.started.connect(self.my_worker_automatic.run_automatic_supplier_parser)
-
         # GUI element connectors manual parser
         self.ui.add_price_push_button.clicked.connect(self.on_add_price_push_button)
         self.ui.delete_price_push_button.clicked.connect(self.on_delete_price_push_button)
@@ -37,9 +35,9 @@ class ParserController:
         self.ui.add_result_path_parser_push_button.clicked.connect(self.on_add_result_path_parser_push_button)
         self.ui.add_multiple_price_push_button.clicked.connect(self.on_add_multiple_price_push_button)
         # GUI element auto parser initialize
-        self.ui.link_kvt_line_edit.setText(pp.KVT_LINK)
-        self.ui.link_torg7_line_edit.setText(pp.TOG7_LINK)
-        self.ui.link_a4_line_edit.setText(pp.A4_LINK)
+        self.ui.link_kvt_line_edit.setText(config.KVT_LINK)
+        self.ui.link_torg7_line_edit.setText(config.TOG7_LINK)
+        self.ui.link_a4_line_edit.setText(config.A4_LINK)
         # GUI element connectors automatic parser
         self.ui.parse_kvt_push_button.clicked.connect(self.parse_kvt)
         self.ui.parse_torg7_push_button.clicked.connect(self.parse_torg7)
@@ -83,7 +81,8 @@ class ParserController:
 
     # Start parsing files
     def on_start_parsing_push_button(self):
-        if self.ui.manual_parser_tree_widget.invisibleRootItem().childCount() > 0 and self.ui.result_path_parser_line_edit.text() != '':
+        if self.ui.manual_parser_tree_widget.invisibleRootItem().childCount() > 0 and \
+                self.ui.result_path_parser_line_edit.text() != '':
             files_dict = self.__get_values_from_tree_widget_items()
             output_dir = self.ui.result_path_parser_line_edit.text()
             self.my_worker_manual.set_manual_parser_params(files_dict, output_dir)
@@ -95,21 +94,21 @@ class ParserController:
         if self.ui.result_path_parser_line_edit.text() != '':
             link = self.ui.link_kvt_line_edit.text()
             output_path = self.ui.result_path_parser_line_edit.text()
-            self.my_worker_automatic.set_automatic_parser_params(vc.KVT_NAME, link, output_path)
+            self.my_worker_automatic.set_automatic_parser_params(config.KVT_NAME, link, output_path)
             self.thread_auto_parser.start()
 
     def parse_torg7(self):
         if self.ui.result_path_parser_line_edit.text() != '':
             link = self.ui.link_torg7_line_edit.text()
             output_path = self.ui.result_path_parser_line_edit.text()
-            self.my_worker_automatic.set_automatic_parser_params(vc.TORG7_NAME, link, output_path)
+            self.my_worker_automatic.set_automatic_parser_params(config.TORG7_NAME, link, output_path)
             self.thread_auto_parser.start()
 
     def parse_a4(self):
         if self.ui.result_path_parser_line_edit.text() != '':
             link = self.ui.link_a4_line_edit.text()
             output_path = self.ui.result_path_parser_line_edit.text()
-            self.my_worker_automatic.set_automatic_parser_params(vc.A4_NAME, link, output_path)
+            self.my_worker_automatic.set_automatic_parser_params(config.A4_NAME, link, output_path)
             self.thread_auto_parser.start()
     # AUTOMATIC PARSER ELEMENTS------------------------------------------------
 
@@ -121,7 +120,7 @@ class ParserController:
 
     def __add_combobox_to_manual_parser_tree_widget_item(self, column: int, tree_widget_item: QTreeWidgetItem):
         combobox = QComboBox()
-        combobox.addItems(vc.SUPPLIERS)
+        combobox.addItems(config.SUPPLIERS)
         self.ui.manual_parser_tree_widget.setItemWidget(tree_widget_item, column, combobox)
 
     # Return values from tree_widget {treeWidgetItem_index: {supplier_name: price_file_path}}
@@ -177,11 +176,11 @@ class ParserController:
 
     # On started manual parsing supplier_price changing color(status)
     def on_manual_supplier_parser_item_started(self, item_index: int):
-        self.__set_tree_widget_item_color(item_index, vc.STATUS_PROCESSING_COLOR)
+        self.__set_tree_widget_item_color(item_index, config.STATUS_PROCESSING_COLOR)
 
     # On finished manual parsing supplier_price changing color(status)
     def on_manual_supplier_parser_item_finished(self, item_index: int):
-        self.__set_tree_widget_item_color(item_index, vc.STATUS_READY_COLOR)
+        self.__set_tree_widget_item_color(item_index, config.STATUS_READY_COLOR)
 
     # On finished manual parsing all supplier_prices
     def on_manual_supplier_parser_finished(self):
@@ -194,23 +193,23 @@ class ParserController:
 
     # THREAD SLOTS AUTOMATIC PARSER
     def on_automatic_parser_started(self, supplier_name):
-        color = 'QLineEdit {background: ' + vc.STATUS_PROCESSING_COLOR + ';}'
-        if supplier_name == vc.KVT_NAME:
+        color = 'QLineEdit {background: ' + config.STATUS_PROCESSING_COLOR + ';}'
+        if supplier_name == config.KVT_NAME:
             self.ui.link_kvt_line_edit.setStyleSheet(color)
             self.ui.parse_kvt_push_button.setEnabled(False)
-        elif supplier_name == vc.TORG7_NAME:
+        elif supplier_name == config.TORG7_NAME:
             self.ui.link_torg7_line_edit.setStyleSheet(color)
-        elif supplier_name == vc.A4_NAME:
+        elif supplier_name == config.A4_NAME:
             self.ui.link_a4_line_edit.setStyleSheet(color)
 
     def on_automatic_parser_finished(self, supplier_name):
-        color = 'QLineEdit {background: ' + vc.STATUS_READY_COLOR + ';}'
-        if supplier_name == vc.KVT_NAME:
+        color = 'QLineEdit {background: ' + config.STATUS_READY_COLOR + ';}'
+        if supplier_name == config.KVT_NAME:
             self.ui.link_kvt_line_edit.setStyleSheet(color)
             self.ui.parse_kvt_push_button.setEnabled(True)
-        elif supplier_name == vc.TORG7_NAME:
+        elif supplier_name == config.TORG7_NAME:
             self.ui.link_torg7_line_edit.setStyleSheet(color)
-        elif supplier_name == vc.A4_NAME:
+        elif supplier_name == config.A4_NAME:
             self.ui.link_a4_line_edit.setStyleSheet(color)
         self.thread_auto_parser.quit()
 

@@ -1,7 +1,7 @@
-from parsers import parsing_parameters as pp
 from parsers.result_dataframe import ResultDataFrame
 from file_manager.storage import Storage
 import pandas as pd
+from configs import config
 
 
 class ParserTorg2(ResultDataFrame):
@@ -15,23 +15,27 @@ class ParserTorg2(ResultDataFrame):
         return self.get_result_dataframe()
 
     def __fill_dataframe(self):
-        self.set_name(self.__df_stock['Наименование'])
-        self.set_unit(self.__df_stock['Ед. изм.'])
-        self.set_purchase_price(self.__df_stock['Цена перечислением без НДС'])
-        self.set_quantity(self.__df_stock['Количество'])
-        self.set_selling_price(self.get_purchase_price() * pp.TORG2_MARGIN)
-        self.set_site_name(self.__df_stock['Наименование'])
+        self.set_name(self.__df_stock[config.TORG2_HEADERS.name])
+        self.set_unit(self.__df_stock[config.TORG2_HEADERS.unit])
+        self.set_purchase_price(self.__df_stock[config.TORG2_HEADERS.purchase_price])
+        self.set_quantity(self.__df_stock[config.TORG2_HEADERS.quantity])
+        self.set_selling_price(self.get_purchase_price() * config.TORG2_MARGIN)
+        self.set_site_name(self.get_name())
 
     def __normalize_dataframe(self):
-        self.__df_stock.loc[(self.__df_stock['Цена перечислением без НДС'] == 'договор.'),
-                            'Цена перечислением без НДС'] = pd.NA
-        self.__df_stock[self.__df_stock['Наименование'].str.contains('|'.join(pp.TORG2_EXCEPTIONS_BRANDS),
-                                                                     na=False, case=False)] = pd.NA
+        self.__df_stock.loc[(self.__df_stock[config.TORG2_HEADERS.purchase_price] == 'договор.'),
+                            config.TORG2_HEADERS.purchase_price] = pd.NA
+        self.__df_stock[
+            self.__df_stock[config.TORG2_HEADERS.get_name()].str.contains('|'.join(config.TORG2_EXCEPTIONS_BRANDS),
+                                                                          na=False,
+                                                                          case=False)
+        ] = pd.NA
         self.__df_stock.dropna(axis=0,
-                               subset=['артикул',
-                                       'Наименование',
-                                       'Количество',
-                                       'Цена перечислением без НДС'],
+                               subset=[config.TORG2_HEADERS.article,
+                                       config.TORG2_HEADERS.name,
+                                       config.TORG2_HEADERS.quantity,
+                                       config.TORG2_HEADERS.purchase_price],
                                inplace=True)
-        self.__df_stock['Количество'] = pd.to_numeric(self.__df_stock['Количество'])
-        self.__df_stock.loc[(self.__df_stock['Количество'] > 1_000_000), 'Количество'] = 100_000
+        self.__df_stock[config.TORG2_HEADERS.quantity] = pd.to_numeric(self.__df_stock[config.TORG2_HEADERS.quantity])
+        self.__df_stock.loc[(self.__df_stock[config.TORG2_HEADERS.quantity] > 1_000_000),
+                            config.TORG2_HEADERS.quantity] = 100_000

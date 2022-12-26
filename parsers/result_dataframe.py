@@ -1,4 +1,5 @@
 import pandas as pd
+from configs import config
 
 
 class ResultDataFrame:
@@ -73,3 +74,7 @@ class ResultDataFrame:
 
     def get_multiplicity(self):
         return self.__df['Кратность']
+
+    @staticmethod
+    def get_purchase_price_column_name() -> str:
+        return 'Цена поставки, б/ндс'
