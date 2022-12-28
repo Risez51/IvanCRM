@@ -1,4 +1,4 @@
-import main_window
+from view import main_window
 import os
 from PyQt5.QtWidgets import QMessageBox, QFileDialog, QTreeWidgetItem, QComboBox
 from PyQt5 import QtCore

@@ -1,4 +1,4 @@
-from configs.config_reader import ConfigReader
+from configs.config_worker import ConfigReader
 
 
 class Headers:

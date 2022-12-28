@@ -1,7 +1,10 @@
 import datetime
-from configs.config_reader import ConfigReader
+from configs.config_worker import ConfigReader
 from parsers.headers import Headers
 cr = ConfigReader()
+
+# Settings file
+SETTINGS_JSON = r'C:\Users\OperTech\pythonProject\IvanCRM\configs\sn.json'
 
 # PASSPORT PROTECTION CONFIGS
 PASSPORT_FILE_TYPES = '*.doc *.pdf'
@@ -10,6 +13,7 @@ STATUS_PROCESSING = 'Обработка'
 STATUS_READY = 'Готов'
 STATUS_PROCESSING_COLOR = '#FFFF00'
 STATUS_READY_COLOR = '#33FF33'
+STATUS_NONE = '#FFFFFF'
 
 # PARSER CONFIGS
 # combobox values for supplier parsing
@@ -23,6 +27,7 @@ TORG2_NAME = cr.get_supplier_name('TORG2_NAME')
 TORG7_NAME = cr.get_supplier_name('TORG7_NAME')
 YU1_NAME = cr.get_supplier_name('YU1_NAME')
 A4_NAME = cr.get_supplier_name('A4_NAME')
+VOID_NAME = cr.get_supplier_name('VOID_NAME')
 
 # Supplier links to price-file
 A4_LINK = cr.get_supplier_link(A4_NAME)
@@ -56,4 +61,5 @@ TORG2_HEADERS = Headers(TORG2_NAME)
 TORG7_HEADERS = Headers(TORG7_NAME)
 YU1_HEADERS = Headers(YU1_NAME)
 A4_HEADERS = Headers(A4_NAME)
+VOID_HEADERS = Headers(VOID_NAME)
 

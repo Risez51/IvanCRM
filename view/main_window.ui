@@ -543,11 +543,13 @@
     <property name="title">
      <string>Settings</string>
     </property>
+    <addaction name="parsing_parameters_action"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
      <string>About</string>
     </property>
+    <addaction name="action_2"/>
    </widget>
    <widget class="QMenu" name="menuTools">
     <property name="title">
@@ -560,6 +562,16 @@
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="parsing_parameters_action">
+   <property name="text">
+    <string>Параметры парсинга</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
