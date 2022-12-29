@@ -34,10 +34,10 @@ class Watermark:
         input_pdf = self.__get_first_page_of_pdf(input_pdf).mediabox
         if input_pdf.getUpperRight_x() - input_pdf.getUpperLeft_x() > \
                 input_pdf.getUpperRight_y() - input_pdf.getLowerRight_y():
-            return self.__get_first_page_of_pdf(r'C:\Users\OperTech\pythonProject\IvanCRM\work_files'
+            return self.__get_first_page_of_pdf(r'C:\Users\Ivan-pc\PycharmProjects\IvanCRM_Home_version\work_files'
                                                 r'\ЧЕРНОВИК-HORIZONTAL.pdf')
         else:
-            return self.__get_first_page_of_pdf(r'C:\Users\OperTech\pythonProject\IvanCRM\work_files'
+            return self.__get_first_page_of_pdf(r'C:\Users\Ivan-pc\PycharmProjects\IvanCRM_Home_version\work_files'
                                                 r'\ЧЕРНОВИК-VERTICAL.pdf')
 
     # get watermark page

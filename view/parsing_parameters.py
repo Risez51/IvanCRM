@@ -141,12 +141,14 @@ class ParsingParametersUi(QtWidgets.QWidget):
         self.site_name_line_edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.site_name_line_edit.setObjectName("site_name_line_edit")
         self.verticalLayout.addWidget(self.site_name_line_edit)
+
         self.label_14 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.label_14.setObjectName("label_14")
         self.verticalLayout.addWidget(self.label_14)
         self.multiplicity_line_edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.multiplicity_line_edit.setObjectName("multiplicity_line_edit")
         self.verticalLayout.addWidget(self.multiplicity_line_edit)
+
         self.verticalLayout_2.addLayout(self.verticalLayout)
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)

@@ -33,8 +33,3 @@ class XmlParser:
     def set_quantity_product(node, product):
         if node.firstChild:
             product.set_quantity(int(node.firstChild.data))
-
-
-class ExcelParser:
-    def __init__(self):
-        pass

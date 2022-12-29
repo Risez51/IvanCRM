@@ -1,11 +1,11 @@
 import datetime
 from configs.config_worker import ConfigReader
 from parsers.headers import Headers
-cr = ConfigReader()
+
 
 # Settings file
-SETTINGS_JSON = r'C:\Users\OperTech\pythonProject\IvanCRM\configs\sn.json'
-
+SETTINGS_JSON = r'C:\Users\Ivan-pc\PycharmProjects\IvanCRM_Home_version\configs\settings_parser.json'
+cr = ConfigReader()
 # PASSPORT PROTECTION CONFIGS
 PASSPORT_FILE_TYPES = '*.doc *.pdf'
 STATUS_ADDED = 'Добавлен'

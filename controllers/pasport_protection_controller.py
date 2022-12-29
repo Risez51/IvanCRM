@@ -70,7 +70,7 @@ class PassportProtectionController:
         output_dir_path = os.path.abspath(QFileDialog.getExistingDirectory(None, 'Выберите папку...'))
         self.ui.result_path_line_edit.setText(output_dir_path)
 
-    def on_file_protection_is_ready(self, message: str):
+    def on_file_protection_is_completed(self, message: str):
         self.ui.statusbar.showMessage(message)
 
     def get_tree_items(self) -> dict:

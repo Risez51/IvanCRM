@@ -33,8 +33,7 @@ class Worker(QtCore.QObject):
             self.file_protection_started.emit(key, config.STATUS_PROCESSING)
             dir_path = os.path.dirname(value)
             filename = os.path.basename(value)
-            PassportProtection(dir_path,
-                               self.output_path).start_one(filename)
+            PassportProtection(dir_path, self.output_path).start_one(filename)
             self.file_protection_finished.emit(key, config.STATUS_READY)
         self.passport_protection_completed.emit()
 
