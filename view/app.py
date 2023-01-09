@@ -2,7 +2,8 @@ from PyQt5 import QtWidgets
 from controllers.pasport_protection_controller import PassportProtectionController
 from controllers.parser_controller import ParserController
 from controllers.parser_parameters_controller import ParsingParameterController
-from view import parsing_parameters, main_window
+import main_window
+import parsing_parameters
 
 
 class App(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
@@ -24,15 +25,3 @@ class App(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
 
     def on_click_settings_parsing_parameters(self):
         self.parsing_parameters_widget.show()
-
-
-
-
-
-
-
-
-
-
-
-

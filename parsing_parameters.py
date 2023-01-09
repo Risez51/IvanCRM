@@ -149,6 +149,14 @@ class ParsingParametersUi(QtWidgets.QWidget):
         self.multiplicity_line_edit.setObjectName("multiplicity_line_edit")
         self.verticalLayout.addWidget(self.multiplicity_line_edit)
 
+        self.label_15 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.label_15.setObjectName("label_15")
+        self.label_15.setText("Наценка")
+        self.verticalLayout.addWidget(self.label_15)
+        self.margin_line_edit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.margin_line_edit.setObjectName('margin_line_edit')
+        self.verticalLayout.addWidget(self.margin_line_edit)
+
         self.verticalLayout_2.addLayout(self.verticalLayout)
         self.verticalLayout_3.addLayout(self.verticalLayout_2)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -178,7 +186,7 @@ class ParsingParametersUi(QtWidgets.QWidget):
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.setWindowTitle(_translate("Form", "Form"))
+        self.setWindowTitle(_translate("Form", "Параметры парсинга"))
         self.label.setText(_translate("Form", "Параметры поставщиков"))
         self.label_2.setText(_translate("Form", "Выберите поставщика:"))
         self.choose_supplier_push_button.setText(_translate("Form", "Выбрать"))

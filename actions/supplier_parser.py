@@ -1,10 +1,10 @@
 from parsers import parser_a4, parser_torg7, parser_kvt, parser_torg2, parser_yu1_id, parser_p1_id, parser_n1_id
 from file_manager.storage import Storage
 from datetime import datetime
+from controllers.speaker import Speaker
 
 
 class SupplierParser:
-
     def __init__(self, output_dir: str):
         self.output_dir = output_dir
         self.today = datetime.today().strftime('%d-%m-%y')
@@ -16,8 +16,9 @@ class SupplierParser:
 
     def create_a4(self, file_path: str):
         dataframe = parser_a4.ParserA4(file_path).get_result()
-        filename = f"{self.output_dir}\\А4_ИД от {self.today}.xlsx"
-        self.__create_chk_file(dataframe, filename)
+        if dataframe:
+            filename = f"{self.output_dir}\\А4_ИД от {self.today}.xlsx"
+            self.__create_chk_file(dataframe, filename)
 
     def create_kvt(self, file_path: str):
         dataframe = parser_kvt.ParserKVT(file_path).get_result()

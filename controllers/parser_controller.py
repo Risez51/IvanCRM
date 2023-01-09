@@ -1,4 +1,5 @@
-from view import main_window
+from controllers.speaker import Speaker
+import main_window
 import os
 from PyQt5.QtWidgets import QMessageBox, QFileDialog, QTreeWidgetItem, QComboBox
 from PyQt5 import QtCore
@@ -23,10 +24,12 @@ class ParserController:
         self.my_worker_manual.manual_supplier_parser_item_started.connect(self.on_manual_supplier_parser_item_started)
         self.my_worker_manual.manual_supplier_parser_item_finished.connect(self.on_manual_supplier_parser_item_finished)
         self.my_worker_manual.manual_supplier_parser_finished.connect(self.on_manual_supplier_parser_finished)
+        self.my_worker_manual.manual_supplier_parser_error.connect(self.on_manual_parsing_error)
         self.thread_manual_parser.started.connect(self.my_worker_manual.run_manual_supplier_parser)
         # Thread automatic connectors
         self.my_worker_automatic.automatic_supplier_parser_started.connect(self.on_automatic_parser_started)
         self.my_worker_automatic.automatic_supplier_parser_finished.connect(self.on_automatic_parser_finished)
+        self.my_worker_automatic.automatic_supplier_parser_error.connect(self.on_automatic_parsing_error)
         self.thread_auto_parser.started.connect(self.my_worker_automatic.run_automatic_supplier_parser)
         # GUI element connectors manual parser
         self.ui.add_price_push_button.clicked.connect(self.on_add_price_push_button)
@@ -39,9 +42,9 @@ class ParserController:
         self.ui.link_torg7_line_edit.setText(config.TOG7_LINK)
         self.ui.link_a4_line_edit.setText(config.A4_LINK)
         # GUI element connectors automatic parser
-        self.ui.parse_kvt_push_button.clicked.connect(self.parse_kvt)
-        self.ui.parse_torg7_push_button.clicked.connect(self.parse_torg7)
-        self.ui.parse_a4_push_button.clicked.connect(self.parse_a4)
+        self.ui.parse_kvt_push_button.clicked.connect(self.on_parse_kvt_push_button)
+        self.ui.parse_torg7_push_button.clicked.connect(self.on_parse_torg7_push_button)
+        self.ui.parse_a4_push_button.clicked.connect(self.on_parse_a4_push_button)
         # TEST
         self.ui.test_push_button.clicked.connect(self.test)
 
@@ -87,29 +90,31 @@ class ParserController:
             output_dir = self.ui.result_path_parser_line_edit.text()
             self.my_worker_manual.set_manual_parser_params(files_dict, output_dir)
             self.thread_manual_parser.start()
+
     # MANUAL PARSER ELEMENTS----------------------------------------------------
 
     # AUTOMATIC PARSER ELEMENTS+++++++++++++++++++++++++++++++++++++++++++++++++
-    def parse_kvt(self):
+    def on_parse_kvt_push_button(self):
         if self.ui.result_path_parser_line_edit.text() != '':
             link = self.ui.link_kvt_line_edit.text()
             output_path = self.ui.result_path_parser_line_edit.text()
             self.my_worker_automatic.set_automatic_parser_params(config.KVT_NAME, link, output_path)
             self.thread_auto_parser.start()
 
-    def parse_torg7(self):
+    def on_parse_torg7_push_button(self):
         if self.ui.result_path_parser_line_edit.text() != '':
             link = self.ui.link_torg7_line_edit.text()
             output_path = self.ui.result_path_parser_line_edit.text()
             self.my_worker_automatic.set_automatic_parser_params(config.TORG7_NAME, link, output_path)
             self.thread_auto_parser.start()
 
-    def parse_a4(self):
+    def on_parse_a4_push_button(self):
         if self.ui.result_path_parser_line_edit.text() != '':
             link = self.ui.link_a4_line_edit.text()
             output_path = self.ui.result_path_parser_line_edit.text()
             self.my_worker_automatic.set_automatic_parser_params(config.A4_NAME, link, output_path)
             self.thread_auto_parser.start()
+
     # AUTOMATIC PARSER ELEMENTS------------------------------------------------
 
     def __create_new_tree_widget_item(self, file_path):
@@ -158,13 +163,8 @@ class ParserController:
         self.ui.manual_parser_tree_widget.invisibleRootItem().child(item_index).setBackground(2, color)
 
     # shows a message and offers to open the folder with the result of parsing
-    def __show_message_on_result_ready(self):
-        msg_answer = QMessageBox.question(None, 'Парсинг файлов окончен',
-                                          'Открыть папку с файлами?',
-                                          QMessageBox.Yes, QMessageBox.No)
-        if msg_answer == QMessageBox.Yes:
-            result_path = self.ui.result_path_parser_line_edit.text()
-            os.system(r'explorer.exe ' + f'{result_path}')
+    def on_result_ready_show_message(self):
+        Speaker().show_message_on_result_ready(self.ui.result_path_parser_line_edit.text())
 
     # THREAD SLOTS MANUAL PARSING
     # On started manual parsing
@@ -189,10 +189,10 @@ class ParserController:
         self.ui.start_parsing_push_button.setEnabled(True)
         self.ui.add_price_push_button.setEnabled(True)
         self.thread_manual_parser.quit()
-        self.__show_message_on_result_ready()
+        self.on_result_ready_show_message()
 
     # THREAD SLOTS AUTOMATIC PARSER
-    def on_automatic_parser_started(self, supplier_name):
+    def on_automatic_parser_started(self, supplier_name: str):
         color = 'QLineEdit {background: ' + config.STATUS_PROCESSING_COLOR + ';}'
         if supplier_name == config.KVT_NAME:
             self.ui.link_kvt_line_edit.setStyleSheet(color)
@@ -202,7 +202,7 @@ class ParserController:
         elif supplier_name == config.A4_NAME:
             self.ui.link_a4_line_edit.setStyleSheet(color)
 
-    def on_automatic_parser_finished(self, supplier_name):
+    def on_automatic_parser_finished(self, supplier_name: str):
         color = 'QLineEdit {background: ' + config.STATUS_READY_COLOR + ';}'
         if supplier_name == config.KVT_NAME:
             self.ui.link_kvt_line_edit.setStyleSheet(color)
@@ -214,4 +214,12 @@ class ParserController:
         self.thread_auto_parser.quit()
 
     def test(self):
-        self.ui.delete_price_push_button.setEnabled(True)
+        print(123)
+
+    def on_automatic_parsing_error(self, msg: str):
+        self.thread_auto_parser.quit()
+        Speaker().show_message_on_parsing_error(msg)
+
+    def on_manual_parsing_error(self, msg: str):
+        self.thread_manual_parser.quit()
+        Speaker().show_message_on_parsing_error(msg)

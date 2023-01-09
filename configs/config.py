@@ -4,7 +4,7 @@ from parsers.headers import Headers
 
 
 # Settings file
-SETTINGS_JSON = r'C:\Users\Ivan-pc\PycharmProjects\IvanCRM_Home_version\configs\settings_parser.json'
+SETTINGS_JSON = r'C:\Users\OperTech\pythonProject\IvanCRM\configs\settings_parser.json'
 cr = ConfigReader()
 # PASSPORT PROTECTION CONFIGS
 PASSPORT_FILE_TYPES = '*.doc *.pdf'
@@ -13,7 +13,7 @@ STATUS_PROCESSING = 'Обработка'
 STATUS_READY = 'Готов'
 STATUS_PROCESSING_COLOR = '#FFFF00'
 STATUS_READY_COLOR = '#33FF33'
-STATUS_NONE = '#FFFFFF'
+STATUS_NONE_COLOR = '#FFFFFF'
 
 # PARSER CONFIGS
 # combobox values for supplier parsing

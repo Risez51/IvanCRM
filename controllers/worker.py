@@ -16,9 +16,11 @@ class Worker(QtCore.QObject):
     manual_supplier_parser_item_started = QtCore.pyqtSignal(int)
     manual_supplier_parser_item_finished = QtCore.pyqtSignal(int)
     manual_supplier_parser_finished = QtCore.pyqtSignal()
+    manual_supplier_parser_error = QtCore.pyqtSignal(str)
     # automatic supplier parser signal
     automatic_supplier_parser_started = QtCore.pyqtSignal(str)
     automatic_supplier_parser_finished = QtCore.pyqtSignal(str)
+    automatic_supplier_parser_error = QtCore.pyqtSignal(str)
 
     def __init__(self, parent=None):
         self.output_path = ''
@@ -38,26 +40,33 @@ class Worker(QtCore.QObject):
         self.passport_protection_completed.emit()
 
     def run_manual_supplier_parser(self):
-        self.manual_suppler_parser_started.emit()
-        supplier_parser = SupplierParser(self.output_path)
-        for item_index, file_dict in self.files.items():
-            self.manual_supplier_parser_item_started.emit(item_index)
-            for supplier_name, file_path in file_dict.items():
-                if supplier_name == config.KVT_NAME:
-                    supplier_parser.create_kvt(file_path)
-                elif supplier_name == config.N1_NAME:
-                    files_list = self.get_files_list_for_multiple_parsing(file_path)
-                    supplier_parser.create_n1(files_list)
-                elif supplier_name == config.P1_NAME:
-                    supplier_parser.create_p1(file_path)
-                elif supplier_name == config.TORG2_NAME:
-                    supplier_parser.create_torg2(file_path)
-                elif supplier_name == config.TORG7_NAME:
-                    supplier_parser.create_torg7(file_path)
-                elif supplier_name == config.YU1_NAME:
-                    supplier_parser.create_yu1(file_path)
-                self.manual_supplier_parser_item_finished.emit(item_index)
-        self.manual_supplier_parser_finished.emit()
+        sup_name = ''
+        f_path = ''
+        try:
+            self.manual_suppler_parser_started.emit()
+            supplier_parser = SupplierParser(self.output_path)
+            for item_index, file_dict in self.files.items():
+                self.manual_supplier_parser_item_started.emit(item_index)
+                for supplier_name, file_path in file_dict.items():
+                    sup_name = supplier_name
+                    f_path = file_path
+                    if supplier_name == config.KVT_NAME:
+                        supplier_parser.create_kvt(file_path)
+                    elif supplier_name == config.N1_NAME:
+                        files_list = self.get_files_list_for_multiple_parsing(file_path)
+                        supplier_parser.create_n1(files_list)
+                    elif supplier_name == config.P1_NAME:
+                        supplier_parser.create_p1(file_path)
+                    elif supplier_name == config.TORG2_NAME:
+                        supplier_parser.create_torg2(file_path)
+                    elif supplier_name == config.TORG7_NAME:
+                        supplier_parser.create_torg7(file_path)
+                    elif supplier_name == config.YU1_NAME:
+                        supplier_parser.create_yu1(file_path)
+                    self.manual_supplier_parser_item_finished.emit(item_index)
+            self.manual_supplier_parser_finished.emit()
+        except Exception as e:
+            self.manual_supplier_parser_error.emit(sup_name + '\n' + f_path + '\n' + str(e))
 
     @staticmethod
     def get_files_list_for_multiple_parsing(file_path):
@@ -67,15 +76,18 @@ class Worker(QtCore.QObject):
         return [dir_path + '\\' + file for file in files_list if file != '']
 
     def run_automatic_supplier_parser(self):
-        self.automatic_supplier_parser_started.emit(self.supplier_name)
-        supplier_parser = SupplierParser(self.output_path)
-        if self.supplier_name == config.KVT_NAME:
-            supplier_parser.create_kvt(self.supplier_link)
-        elif self.supplier_name == config.TORG7_NAME:
-            supplier_parser.create_torg7(self.supplier_link)
-        elif self.supplier_name == config.A4_NAME:
-            supplier_parser.create_a4(self.supplier_link)
-        self.automatic_supplier_parser_finished.emit(self.supplier_name)
+        try:
+            self.automatic_supplier_parser_started.emit(self.supplier_name)
+            supplier_parser = SupplierParser(self.output_path)
+            if self.supplier_name == config.KVT_NAME:
+                supplier_parser.create_kvt(self.supplier_link)
+            elif self.supplier_name == config.TORG7_NAME:
+                supplier_parser.create_torg7(self.supplier_link)
+            elif self.supplier_name == config.A4_NAME:
+                supplier_parser.create_a4(self.supplier_link)
+            self.automatic_supplier_parser_finished.emit(self.supplier_name)
+        except Exception as e:
+            self.automatic_supplier_parser_error.emit(self.supplier_name + '\n' + str(e))
 
     def set_automatic_parser_params(self, supplier_name: str, supplier_link: str,  output_path: str):
         self.output_path = output_path

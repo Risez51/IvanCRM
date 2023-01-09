@@ -31,8 +31,7 @@ class ParserTorg2(ResultDataFrame):
                                                                           case=False)
         ] = pd.NA
         self.__df_stock.dropna(axis=0,
-                               subset=[config.TORG2_HEADERS.article,
-                                       config.TORG2_HEADERS.name,
+                               subset=[config.TORG2_HEADERS.name,
                                        config.TORG2_HEADERS.quantity,
                                        config.TORG2_HEADERS.purchase_price],
                                inplace=True)
