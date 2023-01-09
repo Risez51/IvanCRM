@@ -2,7 +2,7 @@ from PyQt5 import QtWidgets
 
 from view.parsing_parameters import ParsingParametersUi
 from configs import config
-from configs.config_worker import ConfigUpdater
+from configs.config_worker import ConfigUpdater, ConfigReader
 from parsers.headers import Headers
 
 
@@ -18,11 +18,13 @@ class ParsingParameterController:
         self.headers = config.VOID_HEADERS
         # Fill combobox items
         self.ui.suppliers_combobox.addItems(config.SUPPLIERS)
+        self.margin = ''
 
     def on_save_push_button(self):
         supplier_name = self.ui.suppliers_combobox.currentText()
         config_updater = ConfigUpdater()
-        config_updater.update_supplier_headers(supplier_name,
+        config_updater.update_supplier_margin(supplier_name, self.ui.margin_line_edit.text())
+        config_updater.update_supplier_headers(self.ui.suppliers_combobox.currentText(),
                                                self.ui.article_line_edit.text(),
                                                self.ui.name_line_edit.text(),
                                                self.ui.unit_line_edit.text(),
@@ -45,11 +47,13 @@ class ParsingParameterController:
     def choose_supplier(self):
         selected_supplier_item = self.ui.suppliers_combobox.currentText()
         self.headers = Headers(selected_supplier_item)
+        self.margin = str(ConfigReader().get_supplier_margin(selected_supplier_item))
+
         self.__clear_all_line_edits()
-        self.__fill_all_line_edits(self.headers)
+        self.__fill_all_line_edits(self.headers, self.margin)
         self.__connect_line_edit_changed()
 
-    def __fill_all_line_edits(self, supplier_headers: Headers):
+    def __fill_all_line_edits(self, supplier_headers: Headers, margin):
         self.__fill_line_edit(self.ui.article_line_edit, supplier_headers.article)
         self.__fill_line_edit(self.ui.name_line_edit, supplier_headers.name)
         self.__fill_line_edit(self.ui.unit_line_edit, supplier_headers.unit)
@@ -62,6 +66,7 @@ class ParsingParameterController:
         self.__fill_line_edit(self.ui.group_key_line_edit, supplier_headers.group_key)
         self.__fill_line_edit(self.ui.site_name_line_edit, supplier_headers.site_name)
         self.__fill_line_edit(self.ui.multiplicity_line_edit, supplier_headers.multiplicity)
+        self.__fill_line_edit(self.ui.margin_line_edit, margin)
 
     def __clear_all_line_edits(self):
         self.ui.article_line_edit.clear()
@@ -76,6 +81,7 @@ class ParsingParameterController:
         self.ui.group_key_line_edit.clear()
         self.ui.site_name_line_edit.clear()
         self.ui.multiplicity_line_edit.clear()
+        self.ui.margin_line_edit.clear()
 
     @staticmethod
     def __fill_line_edit(line_edit: QtWidgets.QLineEdit, header: str):
@@ -122,12 +128,15 @@ class ParsingParameterController:
         self.ui.multiplicity_line_edit.textChanged.connect(
             lambda: self.on_line_edit_text_changed(self.ui.multiplicity_line_edit,
                                                    self.headers.multiplicity))
+        self.ui.margin_line_edit.textChanged.connect(
+            lambda: self.on_line_edit_text_changed(self.ui.margin_line_edit,
+                                                   self.margin))
 
     @staticmethod
-    def on_line_edit_text_changed(line_edit: QtWidgets.QLineEdit, header: str):
+    def on_line_edit_text_changed(line_edit: QtWidgets.QLineEdit, value: str):
         color_changed = 'QLineEdit {background: ' + config.STATUS_PROCESSING_COLOR + ';}'
         color_no_changed = 'QLineEdit {background: ' + config.STATUS_NONE + ';}'
-        if line_edit.text() != header:
+        if line_edit.text() != value:
             line_edit.setStyleSheet(color_changed)
         else:
             line_edit.setStyleSheet(color_no_changed)
