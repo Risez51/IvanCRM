@@ -51,16 +51,16 @@ class ParserController:
     # MANUAL PARSER ELEMENTS+++++++++++++++++++++++++++++++++++++++++++++++++++++
     # Добавлет в TreeWidgetItem для 1 файла
     def on_add_price_push_button(self):
-        opened_files = QFileDialog.getOpenFileNames(None, 'Выберите файлы', '',
-                                                    config.PRICE_FILE_TYPES)
+        opened_files: list = QFileDialog.getOpenFileNames(None, 'Выберите файлы', '',
+                                                          config.PRICE_FILE_TYPES)
         if opened_files[0]:
             for file_path in opened_files[0]:
                 self.__create_new_tree_widget_item(file_path)
 
     # Добавлет в TreeWidgetItem для нескольких файлов
     def on_add_multiple_price_push_button(self):
-        opened_files = QFileDialog.getOpenFileNames(None, 'Выберите файлы', '',
-                                                    config.PRICE_FILE_TYPES)
+        opened_files: list = QFileDialog.getOpenFileNames(None, 'Выберите файлы', '',
+                                                          config.PRICE_FILE_TYPES)
         if opened_files[0]:
             self.__create_new_tree_widget_item_multiple(opened_files[0])
 
@@ -71,7 +71,7 @@ class ParserController:
 
     # Заполняет поле "Результирующий путь"
     def on_add_result_path_parser_push_button(self):
-        specified_dir = os.path.abspath(QFileDialog.getExistingDirectory(None, 'Выберите папку'))
+        specified_dir: str = os.path.abspath(QFileDialog.getExistingDirectory(None, 'Выберите папку'))
         self.ui.result_path_parser_line_edit.setText(specified_dir)
 
     # Start parsing files
@@ -88,22 +88,22 @@ class ParserController:
     # AUTOMATIC PARSER ELEMENTS+++++++++++++++++++++++++++++++++++++++++++++++++
     def on_parse_a4_push_button(self):
         if self.ui.result_path_parser_line_edit.text() != '':
-            link = self.ui.link_a4_line_edit.text()
-            output_path = self.ui.result_path_parser_line_edit.text()
+            link: str = self.ui.link_a4_line_edit.text()
+            output_path: str = self.ui.result_path_parser_line_edit.text()
             self.my_worker_automatic.set_automatic_parser_params(config.A4_NAME, link, output_path)
             self.thread_auto_parser.start()
 
     def on_parse_kvt_push_button(self):
         if self.ui.result_path_parser_line_edit.text() != '':
-            link = self.ui.link_kvt_line_edit.text()
-            output_path = self.ui.result_path_parser_line_edit.text()
+            link: str = self.ui.link_kvt_line_edit.text()
+            output_path: str = self.ui.result_path_parser_line_edit.text()
             self.my_worker_automatic.set_automatic_parser_params(config.KVT_NAME, link, output_path)
             self.thread_auto_parser.start()
 
     def on_parse_torg7_push_button(self):
         if self.ui.result_path_parser_line_edit.text() != '':
-            link = self.ui.link_torg7_line_edit.text()
-            output_path = self.ui.result_path_parser_line_edit.text()
+            link: str = self.ui.link_torg7_line_edit.text()
+            output_path: str = self.ui.result_path_parser_line_edit.text()
             self.my_worker_automatic.set_automatic_parser_params(config.TORG7_NAME, link, output_path)
             self.thread_auto_parser.start()
 
@@ -120,8 +120,8 @@ class ParserController:
     def __create_new_tree_widget_item_multiple(self, files_list: list):
         tree_widget_item = QTreeWidgetItem(self.ui.manual_parser_tree_widget)
         tree_widget_item.setText(0, os.path.abspath(os.path.dirname(files_list[0])))
-        file_names = ''
-        #fn = [os.path.basename(file_path) for file_path in files_list]
+        file_names: str = ''
+        # fn = [os.path.basename(file_path) for file_path in files_list]
         for file_path in files_list:
             file_names += os.path.basename(file_path) + ';'
         tree_widget_item.setText(1, file_names)
@@ -137,7 +137,7 @@ class ParserController:
     # {treeWidgetItem_index: {supplier_name: price_file_path}, ..., n}
     def __get_values_from_tree_widget_items(self) -> dict:
         root = self.ui.manual_parser_tree_widget.invisibleRootItem()
-        item_index_sup_file_dict = {}
+        item_index_sup_file_dict: dict = {}
         for item_index in range(root.childCount()):
             tree_widget_item = root.child(item_index)
             self.__convert_combobox_to_text(tree_widget_item, 2)
@@ -147,10 +147,10 @@ class ParserController:
     # Возвращает значения из конкретного TreeWidgetItem
     @staticmethod
     def __get_values_from_tree_widget_item(tree_widget_item: QTreeWidgetItem) -> dict:
-        dir_path = tree_widget_item.text(0)
-        filename = tree_widget_item.text(1)
-        supplier_name = tree_widget_item.text(2)
-        file_path = dir_path + '\\' + filename
+        dir_path: str = tree_widget_item.text(0)
+        filename: str = tree_widget_item.text(1)
+        supplier_name: str = tree_widget_item.text(2)
+        file_path: str = dir_path + '\\' + filename
         return {supplier_name: file_path}
 
     # Превращает combobox в простое текстовое поле(ячейку)
@@ -194,7 +194,7 @@ class ParserController:
         self.ui.start_parsing_push_button.setEnabled(True)
         self.ui.add_price_push_button.setEnabled(True)
         self.thread_manual_parser.quit()
-        #self.on_result_ready_show_message()
+        # self.on_result_ready_show_message()
 
     # THREAD SLOTS AUTOMATIC PARSER
     def on_automatic_parser_started(self, supplier_name: str):
@@ -207,15 +207,17 @@ class ParserController:
         self.thread_auto_parser.quit()
 
     def __set_status_line_edits(self, supplier_name: str, color: str):
-        automatic_parsing_line_edits = {config.KVT_NAME: lambda: self.ui.link_kvt_line_edit.setStyleSheet(color),
-                                        config.TORG7_NAME: lambda: self.ui.link_torg7_line_edit.setStyleSheet(color),
-                                        config.A4_NAME: lambda: self.ui.link_a4_line_edit.setStyleSheet(color)}
+        automatic_parsing_line_edits: dict = {config.KVT_NAME: lambda: self.ui.link_kvt_line_edit.setStyleSheet(color),
+                                              config.TORG7_NAME: lambda: self.ui.link_torg7_line_edit.setStyleSheet(
+                                                  color),
+                                              config.A4_NAME: lambda: self.ui.link_a4_line_edit.setStyleSheet(color)}
         return automatic_parsing_line_edits[supplier_name]()
 
     def __set_push_buttons_availability(self, supplier_name: str, status: bool):
-        automatic_parsing_line_edits = {config.KVT_NAME: lambda: self.ui.parse_kvt_push_button.setEnabled(status),
-                                        config.TORG7_NAME: lambda: self.ui.parse_torg7_push_button.setEnabled(status),
-                                        config.A4_NAME: lambda: self.ui.parse_a4_push_button.setEnabled(status)}
+        automatic_parsing_line_edits: dict = {config.KVT_NAME: lambda: self.ui.parse_kvt_push_button.setEnabled(status),
+                                              config.TORG7_NAME: lambda: self.ui.parse_torg7_push_button.setEnabled(
+                                                  status),
+                                              config.A4_NAME: lambda: self.ui.parse_a4_push_button.setEnabled(status)}
         return automatic_parsing_line_edits[supplier_name]()
 
     def on_automatic_parsing_error(self, supplier_name: str, msg: str):

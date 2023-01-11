@@ -2,6 +2,7 @@ from PyQt5 import QtWidgets
 from controllers.pasport_protection_controller import PassportProtectionController
 from controllers.parser_controller import ParserController
 from controllers.parser_parameters_controller import ParsingParameterController
+from controllers.prepare_photo_archive_controller import PhotoArchiveController
 import main_window
 import parsing_parameters
 
@@ -16,10 +17,12 @@ class App(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         # Controllers
         # 1.Controllers main window
         self.passport_protection_controller = PassportProtectionController(self)
-        # 3. Controller parsing window
+        # 2. Controller parsing window
         self.parser_controller = ParserController(self)
-        # 2.Controller Settings/Parsing_parameters widget
+        # 3.Controller Settings/Parsing_parameters widget
         self.parser_parameters_controller = ParsingParameterController(self.parsing_parameters_widget)
+        # 4. Controller prepare photo archive
+        self.prepare_photo_archive_controller = PhotoArchiveController(self)
         # Connectors
         # Opened parsing parameters widget by click menu bar/settings/parsing parameters
         self.parsing_parameters_action.triggered.connect(self.on_click_settings_parsing_parameters)
