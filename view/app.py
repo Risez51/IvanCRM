@@ -16,11 +16,12 @@ class App(QtWidgets.QMainWindow, main_window.Ui_MainWindow):
         # Controllers
         # 1.Controllers main window
         self.passport_protection_controller = PassportProtectionController(self)
+        # 3. Controller parsing window
         self.parser_controller = ParserController(self)
         # 2.Controller Settings/Parsing_parameters widget
         self.parser_parameters_controller = ParsingParameterController(self.parsing_parameters_widget)
         # Connectors
-        # Opened parsing parameters widget by click menubar/settings/parsing parameters
+        # Opened parsing parameters widget by click menu bar/settings/parsing parameters
         self.parsing_parameters_action.triggered.connect(self.on_click_settings_parsing_parameters)
 
     def on_click_settings_parsing_parameters(self):

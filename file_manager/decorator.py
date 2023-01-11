@@ -16,5 +16,4 @@ def is_not_exists(func):
             print(f'Уже существует: {current_path}')
         else:
             return func(current_path)
-
     return wrapper

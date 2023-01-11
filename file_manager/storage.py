@@ -3,7 +3,7 @@ from os import listdir, remove, path, rename, mkdir
 from xml.dom import minidom
 from shutil import move, copyfile, rmtree
 from typing import List
-
+from datetime import datetime
 from pandas import ExcelFile, read_csv, DataFrame
 import openpyxl
 
@@ -12,17 +12,17 @@ from file_manager.decorator import is_exists, is_not_exists
 
 class Storage:
 
-    def get_dataframe(self, filepath_or_url: str, sheet_index: int = 0, start_row: int = 0) -> DataFrame:
-        if filepath_or_url.startswith('http'):
-            if filepath_or_url.endswith('.csv'):
-                return self.__get_dataframe_from_csv_downloaded(filepath_or_url)
+    def get_dataframe(self, file_location: str, sheet_index: int = 0, start_row: int = 0) -> DataFrame:
+        if file_location.startswith('http'):
+            if file_location.endswith('.csv'):
+                return self.__get_dataframe_from_csv_downloaded(file_location)
             else:
-                return self.__get_dataframe_from_xls_downloaded(filepath_or_url, sheet_index, start_row)
+                return self.__get_dataframe_from_xls_downloaded(file_location, sheet_index, start_row)
         else:
-            if filepath_or_url.endswith('.csv'):
-                return self.__get_dataframe_from_csv(filepath_or_url)
+            if file_location.endswith('.csv'):
+                return self.__get_dataframe_from_csv(file_location)
             else:
-                return self.__get_dataframe_from_excel(filepath_or_url, sheet_index, start_row)
+                return self.__get_dataframe_from_excel(file_location, sheet_index, start_row)
 
     def __get_dataframe_from_csv_downloaded(self, url: str,
                                             sep: str = ';',
@@ -78,8 +78,21 @@ class Storage:
 
     # import data(list, dict, dataframe) to xl file format
     @staticmethod
-    def to_excel(my_data, filename):
-        DataFrame(data=my_data).to_excel(filename, index=False)
+    def to_excel(my_data, file_location):
+        DataFrame(data=my_data).to_excel(file_location, index=False)
+
+    def to_chk(self, my_data, file_location):
+        if path.exists(file_location):
+            remove(file_location)
+        self.to_excel(my_data, file_location)
+        filename_chk = file_location.replace('.xlsx', '.chk')
+        if path.exists(filename_chk):
+            remove(filename_chk)
+        rename(file_location, filename_chk)
+
+    @staticmethod
+    def get_supplier_file_name(supplier_name):
+        return f"\\{supplier_name} от {datetime.today().strftime('%d-%m-%y')}.xlsx"
 
     # return list with dir_names and file_names
     @staticmethod
@@ -133,7 +146,3 @@ class Storage:
             return filename.replace('.docx', '.pdf')
         else:
             return filename
-
-    @staticmethod
-    def replace_xl_to_chk(filename: str) -> str:
-        return filename.replace('.xlsx', '.chk')

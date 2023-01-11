@@ -1,57 +1,51 @@
-from parsers import parser_a4, parser_torg7, parser_kvt, parser_torg2, parser_yu1_id, parser_p1_id, parser_n1_id
-from file_manager.storage import Storage
-from datetime import datetime
-from controllers.speaker import Speaker
+import os
+
+import pandas as pd
+
+from parsers.parser_a4 import ParserA4
+from parsers.parser_torg7 import ParserTorg7
+from parsers.parser_kvt import ParserKVT
+from parsers.parser_torg2 import ParserTorg2
+from parsers.parser_yu1_id import ParserYu1
+from parsers.parser_p1_id import ParserP1
+from parsers.parser_n1_id import ParserN1
+
+from configs import config
+
+"""
+ Класс для получения спарсенного файла/прайс-листа поставщика
+ 
+"""
 
 
 class SupplierParser:
-    def __init__(self, output_dir: str):
-        self.output_dir = output_dir
-        self.today = datetime.today().strftime('%d-%m-%y')
 
-    # def create_all(self):
-    #     self.create_a4()
-    #     self.create_kvt()
-    #     self.create_torg7()
+    # Возвращает dataframe с результатом парсинга поставщика
+    # В аргументах имя поставщика, расположение файла
+    def get_parsed_dataframe(self, supplier_name: str, file_location):
+        parsers = {config.A4_NAME: lambda: ParserA4(file_location).get_result(),
+                   config.TORG2_NAME: lambda: ParserTorg2(file_location).get_result(),
+                   config.TORG7_NAME: lambda: ParserTorg7(file_location).get_result(),
+                   config.KVT_NAME: lambda: ParserKVT(file_location).get_result(),
+                   config.N1_NAME: lambda: self.__get_result_dataframe_from_n1(file_location),
+                   config.YU1_NAME: lambda: ParserYu1(file_location).get_result(),
+                   config.P1_NAME: lambda: ParserP1(file_location).get_result(),
+                   }
+        return parsers[supplier_name]()
 
-    def create_a4(self, file_path: str):
-        dataframe = parser_a4.ParserA4(file_path).get_result()
-        if dataframe:
-            filename = f"{self.output_dir}\\А4_ИД от {self.today}.xlsx"
-            self.__create_chk_file(dataframe, filename)
+    # Возвращает dataframe, с результатом парсинга поставщика Н1_ИД (из 3-х файлов)
+    def __get_result_dataframe_from_n1(self, files_location: str) -> pd.DataFrame:
+        # Получение списка [file_location_1, ..., file_location_n]
+        files = self.__get_files_list_for_multiple_parsing(files_location)
+        # Парсинг поставщика Н1_ИД -> result dataframe
+        dataframe = ParserN1(files).get_result()
+        return dataframe
 
-    def create_kvt(self, file_path: str):
-        dataframe = parser_kvt.ParserKVT(file_path).get_result()
-        filename = f"{self.output_dir}\\КВТ_СИТ от {self.today}.xlsx"
-        self.__create_chk_file(dataframe, filename)
-
-    def create_torg7(self, file_path: str):
-        dataframe = parser_torg7.ParserTorg7(file_path).get_result()
-        filename = f"{self.output_dir}\\Торг7_ЧК от {self.today}.xlsx"
-        self.__create_chk_file(dataframe, filename)
-
-    def create_torg2(self, file_path: str):
-        dataframe = parser_torg2.ParserTorg2(file_path).get_result()
-        filename = f"{self.output_dir}\\Торг2_ЧК от {self.today}.xlsx"
-        self.__create_chk_file(dataframe, filename)
-
-    def create_yu1(self, file_path: str):
-        dataframe = parser_yu1_id.ParserYu1(file_path).get_result()
-        filename = f"{self.output_dir}\\Ю1_ИД от {self.today}.xlsx"
-        self.__create_chk_file(dataframe, filename)
-
-    def create_p1(self, file_path: str):
-        dataframe = parser_p1_id.ParserP1(file_path).get_result()
-        filename = f"{self.output_dir}\\П1_ИД от {self.today}.xlsx"
-        self.__create_chk_file(dataframe, filename)
-
-    def create_n1(self, files_list: list):
-        dataframe = parser_n1_id.ParserN1(files_list).get_result()
-        filename = f"{self.output_dir}\\Н1_ИД от {self.today}.xlsx"
-        self.__create_chk_file(dataframe, filename)
-
+    # Функция, которая возвращает список файлов, для парсинга поставщиков, которые содержат несколько прайс-файлов
+    # В аргументах строка "file_path\\file_name_1;file_name_2; ...;file_name_n;''"
     @staticmethod
-    def __create_chk_file(data, filename):
-        Storage().to_excel(data, filename)
-        filename_chk = Storage().replace_xl_to_chk(filename)
-        Storage().rename(filename, filename_chk)
+    def __get_files_list_for_multiple_parsing(files_path: str):
+        files_list = files_path.split(';')
+        dir_path = os.path.dirname(files_list[0])
+        files_list[0] = os.path.basename(files_list[0])
+        return [dir_path + '\\' + file for file in files_list if file != '']

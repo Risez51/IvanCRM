@@ -8,13 +8,18 @@ SETTINGS_JSON = r'C:\Users\OperTech\pythonProject\IvanCRM\configs\settings_parse
 cr = ConfigReader()
 # PASSPORT PROTECTION CONFIGS
 PASSPORT_FILE_TYPES = '*.doc *.pdf'
+PRICE_FILE_TYPES = '*.xls *.xlsx *.csv *.xml'
 STATUS_ADDED = 'Добавлен'
 STATUS_PROCESSING = 'Обработка'
 STATUS_READY = 'Готов'
+# STATUSES
 STATUS_PROCESSING_COLOR = '#FFFF00'
 STATUS_READY_COLOR = '#33FF33'
 STATUS_NONE_COLOR = '#FFFFFF'
-
+STATUS_ERROR_COLOR = '#FF0000'
+QLINEEDIT_STYLE_PROCESSING_COLOR = 'QLineEdit {background: ' + STATUS_PROCESSING_COLOR + ';}'
+QLINEEDIT_STYLE_READY_COLOR = 'QLineEdit {background: ' + STATUS_READY_COLOR + ';}'
+QLINEEDIT_STYLE_ERROR_COLOR = 'QLineEdit {background: ' + STATUS_ERROR_COLOR + ';}'
 # PARSER CONFIGS
 # combobox values for supplier parsing
 SUPPLIERS = cr.get_supplier_names()
