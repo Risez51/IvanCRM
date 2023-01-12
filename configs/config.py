@@ -4,11 +4,12 @@ from parsers.headers import Headers
 
 
 # Settings file
-SETTINGS_JSON = r'C:\Users\OperTech\pythonProject\IvanCRM\configs\settings_parser.json'
+SETTINGS_JSON = r'C:\Users\Ivan-pc\PycharmProjects\IvanCRM_Home_version\configs\settings_parser.json'
 cr = ConfigReader()
 # PASSPORT PROTECTION CONFIGS
 PASSPORT_FILE_TYPES = '*.doc *.pdf'
 PRICE_FILE_TYPES = '*.xls *.xlsx *.csv *.xml'
+PHOTO_LIST_FILE_TYPES = '*.xls *.xlsx *.csv'
 STATUS_ADDED = 'Добавлен'
 STATUS_PROCESSING = 'Обработка'
 STATUS_READY = 'Готов'
