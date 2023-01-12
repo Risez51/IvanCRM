@@ -186,7 +186,7 @@ class ParsingParametersUi(QtWidgets.QWidget):
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.setWindowTitle(_translate("Form", "Параметры поставщиков"))
+        self.setWindowTitle(_translate("Form", "Параметры парсинга"))
         self.label.setText(_translate("Form", "Параметры поставщиков"))
         self.label_2.setText(_translate("Form", "Выберите поставщика:"))
         self.choose_supplier_push_button.setText(_translate("Form", "Выбрать"))

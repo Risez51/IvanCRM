@@ -1,4 +1,4 @@
-from view import main_window
+import main_window
 import os
 from PyQt5.QtWidgets import QMessageBox, QFileDialog, QTreeWidgetItem
 from PyQt5 import QtCore
@@ -18,7 +18,6 @@ class PassportProtectionController:
         self.my_worker.file_protection_finished.connect(self.on_file_protect_finished)
         self.my_worker.passport_protection_completed.connect(self.show_message_on_result_ready)
         self.thread.started.connect(self.my_worker.run_passport_protection)
-
         # GUI element connectors
         ui.add_passport_files_push_button.clicked.connect(self.on_add_passport_files_push_button)
         ui.delete_selected_passport_file_push_button.clicked.connect(self.on_delete_selected_passport_file_push_button)

@@ -1,6 +1,6 @@
 from PyQt5 import QtWidgets
 
-from view.parsing_parameters import ParsingParametersUi
+from parsing_parameters import ParsingParametersUi
 from configs import config
 from configs.config_worker import ConfigUpdater, ConfigReader
 from parsers.headers import Headers
@@ -135,7 +135,7 @@ class ParsingParameterController:
     @staticmethod
     def on_line_edit_text_changed(line_edit: QtWidgets.QLineEdit, value: str):
         color_changed = 'QLineEdit {background: ' + config.STATUS_PROCESSING_COLOR + ';}'
-        color_no_changed = 'QLineEdit {background: ' + config.STATUS_NONE + ';}'
+        color_no_changed = 'QLineEdit {background: ' + config.STATUS_NONE_COLOR + ';}'
         if line_edit.text() != value:
             line_edit.setStyleSheet(color_changed)
         else:
