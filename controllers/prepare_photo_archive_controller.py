@@ -10,9 +10,10 @@ class PhotoArchiveController:
     def on_add_prepare_list_photo_push_button(self):
         try:
             itm = QTableWidgetItem('text')
-            self.ui.articles_without_photo_table_widget.setRowCount(1)
+            row_count = self.ui.articles_without_photo_table_widget.rowCount()
+            self.ui.articles_without_photo_table_widget.setRowCount(row_count + 1)
             self.ui.articles_without_photo_table_widget.setColumnCount(3)
-            self.ui.articles_without_photo_table_widget.setItem(0,0, itm)
+            self.ui.articles_without_photo_table_widget.setItem(0, 0, itm)
         except Exception as e:
             print(e)
         #opened_file = QFileDialog.getOpenFileNames(None, 'Выберите файлы', '', '.xls .xlsx .csv')
