@@ -24,12 +24,12 @@ class ConfigReader:
         except KeyError:
             print(f'У поставщика {supplier_name} - нет заголовков')
 
-    def get_supplier_margin(self, supplier_name: str) -> float:
+    def get_supplier_margin(self, supplier_name: str):
         try:
             return self.json_data['supplier_margins'][supplier_name]
         except KeyError:
             print(f'У поставщика {supplier_name} - нет коэффициента наценки')
-            return 1
+            return ''
 
     def get_supplier_needful_brands(self, supplier_name: str) -> list[str]:
         try:
@@ -50,7 +50,7 @@ class ConfigReader:
             return self.json_data['taxes'][taxes_name]
         except KeyError:
             print(f'Не существует параметра-налога {taxes_name}')
-            return 1
+            return ''
 
     def get_supplier_link(self, supplier_name: str) -> str:
         try:
@@ -71,7 +71,7 @@ class ConfigUpdater:
         self.json_data['supplier_names'][old_name_key] = new_name
 
     def update_supplier_margin(self, supplier_name: str, new_margin: str):
-        self.json_data['supplier_margins'][supplier_name] = new_margin
+        self.json_data['supplier_margins'][supplier_name] = float(new_margin)
 
     def update_supplier_header_article(self, supplier_name: str, new_value: str):
         self.json_data['supplier_headers'][supplier_name]['Артикул'] = new_value

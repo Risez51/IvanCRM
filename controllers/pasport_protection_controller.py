@@ -28,13 +28,14 @@ class PassportProtectionController:
     # Added files (tree widget items) in tree widget
     def on_add_passport_files_push_button(self):
         opened_files = QFileDialog.getOpenFileNames(None, 'Выберите файлы', '', config.PASSPORT_FILE_TYPES)
-        for file_item in opened_files[0]:
-            tree_item = QTreeWidgetItem(self.ui.passport_tree_widget)
-            dir_path = os.path.abspath(os.path.dirname(file_item))
-            file_name = os.path.basename(file_item)
-            self.set_text_to_tree_item_dir_path_column(tree_item, dir_path)
-            self.set_text_to_tree_item_file_name_column(tree_item, file_name)
-            self.set_text_to_tree_item_status_column(tree_item, 'Добавлен')
+        if opened_files:
+            for file_item in opened_files[0]:
+                tree_item = QTreeWidgetItem(self.ui.passport_tree_widget)
+                dir_path = os.path.abspath(os.path.dirname(file_item))
+                file_name = os.path.basename(file_item)
+                self.set_text_to_tree_item_dir_path_column(tree_item, dir_path)
+                self.set_text_to_tree_item_file_name_column(tree_item, file_name)
+                self.set_text_to_tree_item_status_column(tree_item, 'Добавлен')
 
     # Delete row from tree widget
     def on_delete_selected_passport_file_push_button(self):
@@ -67,7 +68,9 @@ class PassportProtectionController:
 
     def on_set_result_path_push_button(self):
         output_dir_path = os.path.abspath(QFileDialog.getExistingDirectory(None, 'Выберите папку...'))
-        self.ui.result_path_line_edit.setText(output_dir_path)
+        print(output_dir_path)
+        if output_dir_path[0]:
+            self.ui.result_path_line_edit.setText(output_dir_path)
 
     def on_file_protection_is_completed(self, message: str):
         self.ui.statusbar.showMessage(message)

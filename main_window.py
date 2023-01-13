@@ -352,7 +352,8 @@ class Ui_MainWindow(object):
         self.add_passport_files_push_button.setText(_translate("MainWindow", "Добавить файлы"))
         self.delete_selected_passport_file_push_button.setText(_translate("MainWindow", "Удалить выбранный"))
         self.start_passport_protection_push_button.setText(_translate("MainWindow", "Создать защищенные файлы"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.prepare_passport_tab), _translate("MainWindow", "Защита паспортов"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.prepare_passport_tab), _translate("MainWindow",
+                                                                                                "Защита паспортов"))
         self.manual_parser_label.setText(_translate("MainWindow", "Ручной парсинг прайсов"))
         self.test_push_button.setText(_translate("MainWindow", "test"))
         self.manual_parser_tree_widget.headerItem().setText(0, _translate("MainWindow", "Расположение"))
@@ -360,7 +361,8 @@ class Ui_MainWindow(object):
         self.manual_parser_tree_widget.headerItem().setText(2, _translate("MainWindow", "Поставщик"))
         self.add_price_push_button.setToolTip(_translate("MainWindow", "Для парсинга 1 файла"))
         self.add_price_push_button.setText(_translate("MainWindow", "Добавить"))
-        self.add_multiple_price_push_button.setToolTip(_translate("MainWindow", "Для поставщиков из нескольких прайсов"))
+        self.add_multiple_price_push_button.setToolTip(_translate("MainWindow",
+                                                                  "Для поставщиков из нескольких прайсов"))
         self.add_multiple_price_push_button.setText(_translate("MainWindow", "Добавить несколько файлов"))
         self.delete_price_push_button.setText(_translate("MainWindow", "Удалить"))
         self.start_parsing_push_button.setText(_translate("MainWindow", "Запустить"))
@@ -373,14 +375,19 @@ class Ui_MainWindow(object):
         self.parse_a4_push_button.setText(_translate("MainWindow", "Спарсить А4_ИД     "))
         self.label.setText(_translate("MainWindow", "Путь, где будут файлы  с результатом"))
         self.add_result_path_parser_push_button.setText(_translate("MainWindow", "Указать папку"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.cheescake_parser_tab), _translate("MainWindow", "Парсинг для Cheescake"))
-        self.add_prepare_list_photo_push_button.setText(_translate("MainWindow", "Добавить файл со списком артикулов без фото"))
-        self.label_2.setText(_translate("MainWindow", "Укажите путь к архиву с фотографиями, где название папки = артикул"))
-        self.add_photo_archive_path_push_button.setText(_translate("MainWindow", "Указать"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.cheescake_parser_tab), _translate("MainWindow",
+                                                                                                "Парсинг для Cheescake"))
+        self.add_prepare_list_photo_push_button.setText(_translate("MainWindow",
+                                                                   "Добавить файл со списком артикулов без фото"))
+        self.label_2.setText(_translate("MainWindow",
+                                        "Укажите путь к архиву с фотографиями, где название папки = артикул"))
+        self.add_photo_archive_path_push_button.setText(_translate("MainWindow",
+                                                                   "Указать"))
         self.label_3.setText(_translate("MainWindow", "Укажите путь, где будет храниться архив с результатом"))
         self.add_result_path_archive_push_button.setText(_translate("MainWindow", "Указать"))
         self.start_prepare_result_archive_push_button.setText(_translate("MainWindow", "Подготовить архив"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.prepare_photo_archive_tab), _translate("MainWindow", "Подготовка фотоархива"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.prepare_photo_archive_tab),
+                                  _translate("MainWindow", "Подготовка фотоархива"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuSettings.setTitle(_translate("MainWindow", "Settings"))
         self.menuAbout.setTitle(_translate("MainWindow", "About"))
