@@ -1,5 +1,4 @@
 import pandas as pd
-from configs import config
 
 
 class ResultDataFrame:

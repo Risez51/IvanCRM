@@ -5,9 +5,9 @@ from configs import config
 
 
 class ParserTorg2(ResultDataFrame):
-    def __init__(self, file_path):
+    def __init__(self, files: list[str]):
         super().__init__()
-        self.__df_stock = Storage().get_dataframe(file_path, start_row=12)
+        self.__df_stock = Storage().get_dataframe(files[0], start_row=12)
 
     def get_result(self) -> pd.DataFrame:
         self.__normalize_dataframe()

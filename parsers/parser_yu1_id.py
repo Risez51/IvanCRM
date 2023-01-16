@@ -5,9 +5,9 @@ from configs import config
 
 
 class ParserYu1(ResultDataFrame):
-    def __init__(self, file_path):
+    def __init__(self, files: list[str]):
         super().__init__()
-        self.__df_stock = Storage().get_dataframe(file_path)
+        self.__df_stock = Storage().get_dataframe(files[0])
         self.headers = config.YU1_HEADERS
 
     def get_result(self) -> pd.DataFrame:

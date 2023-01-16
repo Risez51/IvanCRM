@@ -9,7 +9,7 @@ class Speaker(QtCore.QObject):
 
     @staticmethod
     def show_message_on_result_ready(result_path: str):
-        msg_answer = QMessageBox.question(None, 'Парсинг файлов окончен',
+        msg_answer = QMessageBox.question(None, 'Обработка завершена',
                                           'Открыть папку с файлами?',
                                           QMessageBox.Yes, QMessageBox.No)
         if msg_answer == QMessageBox.Yes:
@@ -18,7 +18,12 @@ class Speaker(QtCore.QObject):
     @staticmethod
     def show_message_on_parsing_error(msg: str = ''):
         QMessageBox.critical(None, 'Ошибка',
-                                          msg,
-                                          QMessageBox.Ok)
+                             msg,
+                             QMessageBox.Ok)
 
-
+    @staticmethod
+    def show_message(title: str, message: str):
+        msg = QMessageBox()
+        msg.setText(message)
+        msg.setWindowTitle(title)
+        msg.exec_()

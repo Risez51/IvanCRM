@@ -5,11 +5,11 @@ from configs import config
 
 
 class ParserKVT(ResultDataFrame):
-    def __init__(self, file_path: str):
+    def __init__(self, files: list[str]):
         super().__init__()
-        if file_path == '':
-            file_path = config.KVT_LINK
-        self.__df_stock = Storage().get_dataframe(file_path, start_row=1)
+        if files[0] == '':
+            files[0] = config.KVT_LINK
+        self.__df_stock = Storage().get_dataframe(files[0], start_row=1)
         self.headers = config.KVT_HEADERS
 
     def get_result(self) -> pd.DataFrame:

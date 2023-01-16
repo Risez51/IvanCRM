@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1027</width>
+    <width>1045</width>
     <height>646</height>
    </rect>
   </property>
@@ -570,7 +570,7 @@
              <number>6</number>
             </property>
             <item>
-             <widget class="QLineEdit" name="result_path_line_edit_2"/>
+             <widget class="QLineEdit" name="photo_archive_path_line_edit"/>
             </item>
             <item>
              <widget class="QPushButton" name="add_photo_archive_path_push_button">
@@ -622,7 +622,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1027</width>
+     <width>1045</width>
      <height>21</height>
     </rect>
    </property>

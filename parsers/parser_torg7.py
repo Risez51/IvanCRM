@@ -6,8 +6,8 @@ from configs import config
 
 class ParserTorg7(XmlParser):
 
-    def __init__(self, file_path):
-        self.xml_link = file_path
+    def __init__(self, files: list[str]):
+        self.xml_link = files[0]
         if self.xml_link == '':
             self.xml_link = config.TOG7_LINK
         self.headers = config.TORG7_HEADERS

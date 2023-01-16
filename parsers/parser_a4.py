@@ -5,8 +5,8 @@ from configs import config
 
 
 class ParserA4(XmlParser):
-    def __init__(self, file_path: str):
-        self.xml_link = file_path
+    def __init__(self, files: list[str]):
+        self.xml_link = files[0]
         if self.xml_link == '':
             self.xml_link = config.A4_LINK
         self.headers = config.A4_HEADERS

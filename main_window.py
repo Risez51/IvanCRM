@@ -10,11 +10,13 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+import configs.config
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1027, 646)
+        MainWindow.resize(1045, 646)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("work_files/blue-cherry-268x268.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
@@ -175,6 +177,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addWidget(self.kvt_label, 0, QtCore.Qt.AlignHCenter)
         self.link_kvt_line_edit = QtWidgets.QLineEdit(self.cheescake_parser_tab)
         self.link_kvt_line_edit.setObjectName("link_kvt_line_edit")
+        self.link_kvt_line_edit.setText(configs.config.KVT_LINK)
         self.verticalLayout_5.addWidget(self.link_kvt_line_edit)
         self.parse_kvt_push_button = QtWidgets.QPushButton(self.cheescake_parser_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -199,6 +202,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.addWidget(self.torg7_label, 0, QtCore.Qt.AlignHCenter)
         self.link_torg7_line_edit = QtWidgets.QLineEdit(self.cheescake_parser_tab)
         self.link_torg7_line_edit.setObjectName("link_torg7_line_edit")
+        self.link_torg7_line_edit.setText(configs.config.TOG7_LINK)
         self.verticalLayout_4.addWidget(self.link_torg7_line_edit)
         self.parse_torg7_push_button = QtWidgets.QPushButton(self.cheescake_parser_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -221,6 +225,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.addWidget(self.a4_label, 0, QtCore.Qt.AlignHCenter)
         self.link_a4_line_edit = QtWidgets.QLineEdit(self.cheescake_parser_tab)
         self.link_a4_line_edit.setObjectName("link_a4_line_edit")
+        self.link_a4_line_edit.setText(configs.config.A4_LINK)
         self.verticalLayout_9.addWidget(self.link_a4_line_edit)
         self.parse_a4_push_button = QtWidgets.QPushButton(self.cheescake_parser_tab)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -284,9 +289,9 @@ class Ui_MainWindow(object):
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setSpacing(6)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        self.result_path_line_edit_2 = QtWidgets.QLineEdit(self.prepare_photo_archive_tab)
-        self.result_path_line_edit_2.setObjectName("result_path_line_edit_2")
-        self.horizontalLayout_7.addWidget(self.result_path_line_edit_2)
+        self.photo_archive_path_line_edit = QtWidgets.QLineEdit(self.prepare_photo_archive_tab)
+        self.photo_archive_path_line_edit.setObjectName("photo_archive_path_line_edit")
+        self.horizontalLayout_7.addWidget(self.photo_archive_path_line_edit)
         self.add_photo_archive_path_push_button = QtWidgets.QPushButton(self.prepare_photo_archive_tab)
         self.add_photo_archive_path_push_button.setObjectName("add_photo_archive_path_push_button")
         self.horizontalLayout_7.addWidget(self.add_photo_archive_path_push_button)
@@ -311,7 +316,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.tabWidget)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1027, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1045, 21))
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
@@ -352,8 +357,7 @@ class Ui_MainWindow(object):
         self.add_passport_files_push_button.setText(_translate("MainWindow", "Добавить файлы"))
         self.delete_selected_passport_file_push_button.setText(_translate("MainWindow", "Удалить выбранный"))
         self.start_passport_protection_push_button.setText(_translate("MainWindow", "Создать защищенные файлы"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.prepare_passport_tab), _translate("MainWindow",
-                                                                                                "Защита паспортов"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.prepare_passport_tab), _translate("MainWindow", "Защита паспортов"))
         self.manual_parser_label.setText(_translate("MainWindow", "Ручной парсинг прайсов"))
         self.test_push_button.setText(_translate("MainWindow", "test"))
         self.manual_parser_tree_widget.headerItem().setText(0, _translate("MainWindow", "Расположение"))
@@ -361,8 +365,7 @@ class Ui_MainWindow(object):
         self.manual_parser_tree_widget.headerItem().setText(2, _translate("MainWindow", "Поставщик"))
         self.add_price_push_button.setToolTip(_translate("MainWindow", "Для парсинга 1 файла"))
         self.add_price_push_button.setText(_translate("MainWindow", "Добавить"))
-        self.add_multiple_price_push_button.setToolTip(_translate("MainWindow",
-                                                                  "Для поставщиков из нескольких прайсов"))
+        self.add_multiple_price_push_button.setToolTip(_translate("MainWindow", "Для поставщиков из нескольких прайсов"))
         self.add_multiple_price_push_button.setText(_translate("MainWindow", "Добавить несколько файлов"))
         self.delete_price_push_button.setText(_translate("MainWindow", "Удалить"))
         self.start_parsing_push_button.setText(_translate("MainWindow", "Запустить"))
@@ -375,19 +378,14 @@ class Ui_MainWindow(object):
         self.parse_a4_push_button.setText(_translate("MainWindow", "Спарсить А4_ИД     "))
         self.label.setText(_translate("MainWindow", "Путь, где будут файлы  с результатом"))
         self.add_result_path_parser_push_button.setText(_translate("MainWindow", "Указать папку"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.cheescake_parser_tab), _translate("MainWindow",
-                                                                                                "Парсинг для Cheescake"))
-        self.add_prepare_list_photo_push_button.setText(_translate("MainWindow",
-                                                                   "Добавить файл со списком артикулов без фото"))
-        self.label_2.setText(_translate("MainWindow",
-                                        "Укажите путь к архиву с фотографиями, где название папки = артикул"))
-        self.add_photo_archive_path_push_button.setText(_translate("MainWindow",
-                                                                   "Указать"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.cheescake_parser_tab), _translate("MainWindow", "Парсинг для Cheescake"))
+        self.add_prepare_list_photo_push_button.setText(_translate("MainWindow", "Добавить файл со списком артикулов без фото"))
+        self.label_2.setText(_translate("MainWindow", "Укажите путь к архиву с фотографиями, где название папки = артикул"))
+        self.add_photo_archive_path_push_button.setText(_translate("MainWindow", "Указать"))
         self.label_3.setText(_translate("MainWindow", "Укажите путь, где будет храниться архив с результатом"))
         self.add_result_path_archive_push_button.setText(_translate("MainWindow", "Указать"))
         self.start_prepare_result_archive_push_button.setText(_translate("MainWindow", "Подготовить архив"))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.prepare_photo_archive_tab),
-                                  _translate("MainWindow", "Подготовка фотоархива"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.prepare_photo_archive_tab), _translate("MainWindow", "Подготовка фотоархива"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuSettings.setTitle(_translate("MainWindow", "Settings"))
         self.menuAbout.setTitle(_translate("MainWindow", "About"))

@@ -1,10 +1,11 @@
 import main_window
-import os
-from PyQt5.QtWidgets import QMessageBox, QFileDialog, QTreeWidgetItem
 from PyQt5 import QtCore
-from PyQt5.QtGui import QColor
-from controllers import worker
+from workers.passport_protection_worker import PassportProtectionWorker
 from configs import config
+from handlers.filedialog import FileDialog
+from handlers.speaker import Speaker
+from handlers.passport_protection_orders_handler import PassportProtectionOrdersHandler
+from orders.passport_protection_order import PassportProtectionOrder
 
 
 class PassportProtectionController:
@@ -12,116 +13,61 @@ class PassportProtectionController:
         self.ui = ui
         # Thread passport_protection
         self.thread = QtCore.QThread()
-        self.my_worker = worker.Worker()
-        self.my_worker.moveToThread(self.thread)
-        self.my_worker.file_protection_started.connect(self.on_file_protect_started)
-        self.my_worker.file_protection_finished.connect(self.on_file_protect_finished)
-        self.my_worker.passport_protection_completed.connect(self.show_message_on_result_ready)
-        self.thread.started.connect(self.my_worker.run_passport_protection)
+        self.worker = PassportProtectionWorker()
+        self.worker.moveToThread(self.thread)
+        self.worker.passport_protection_started.connect(self.on_passport_protection_started)
+        self.worker.passport_protection_finished.connect(self.on_passport_protection_finished)
+        self.worker.passport_protection_completed.connect(self.on_passports_protection_completed)
+        self.thread.started.connect(self.worker.run)
         # GUI element connectors
         ui.add_passport_files_push_button.clicked.connect(self.on_add_passport_files_push_button)
         ui.delete_selected_passport_file_push_button.clicked.connect(self.on_delete_selected_passport_file_push_button)
         ui.start_passport_protection_push_button.clicked.connect(self.on_start_passport_protection_push_button)
         ui.set_result_path_push_button.clicked.connect(self.on_set_result_path_push_button)
-        ui.test_push_button.clicked.connect(self.on_test_push_button)
+        # Orders handler
+        self.__orders_handler = PassportProtectionOrdersHandler(self.ui.passport_tree_widget)
 
     # Added files (tree widget items) in tree widget
     def on_add_passport_files_push_button(self):
-        opened_files = QFileDialog.getOpenFileNames(None, 'Выберите файлы', '', config.PASSPORT_FILE_TYPES)
+        opened_files: list[str] = FileDialog().get_file_names(config.PASSPORT_FILE_TYPES)
         if opened_files:
-            for file_item in opened_files[0]:
-                tree_item = QTreeWidgetItem(self.ui.passport_tree_widget)
-                dir_path = os.path.abspath(os.path.dirname(file_item))
-                file_name = os.path.basename(file_item)
-                self.set_text_to_tree_item_dir_path_column(tree_item, dir_path)
-                self.set_text_to_tree_item_file_name_column(tree_item, file_name)
-                self.set_text_to_tree_item_status_column(tree_item, 'Добавлен')
+            for file_location in opened_files:
+                self.__orders_handler.new_order(file_location)
 
     # Delete row from tree widget
     def on_delete_selected_passport_file_push_button(self):
-        for item in self.ui.passport_tree_widget.selectedItems():
-            self.ui.passport_tree_widget.invisibleRootItem().removeChild(item)
+        self.__orders_handler.remove_selected_order()
 
     # Start passport protection
     def on_start_passport_protection_push_button(self):
         if self.ui.result_path_line_edit.text() != '':
             output_dir = self.ui.result_path_line_edit.text()
-            files_dict = self.get_tree_items()
-            if files_dict:
-                self.my_worker.set_manual_parser_params(files_dict, output_dir)
+            orders = self.__orders_handler.get_orders()
+            if orders:
+                self.worker.set_params(orders, output_dir)
                 self.thread.start()
             else:
-                self.show_message('Ошибка', 'Добавьте файлы для обработки')
+                Speaker().show_message('Недостаточно данных', 'Добавьте файлы для обработки')
         else:
-            self.show_message('Ошибка', 'Введите путь для итоговых файлов')
-
-    def on_test_push_button(self):
-        pass
-
-    # Set status 'process'
-    def on_file_protect_started(self, item_index: int, message: str):
-        self.set_tree_item_status(item_index, message, config.STATUS_PROCESSING_COLOR)
-
-    # Set status 'finished'
-    def on_file_protect_finished(self, item_index: int, message: str):
-        self.set_tree_item_status(item_index, message, config.STATUS_READY_COLOR)
+            Speaker().show_message('Недостаточно данных', 'Введите путь для итоговых файлов')
 
     def on_set_result_path_push_button(self):
-        output_dir_path = os.path.abspath(QFileDialog.getExistingDirectory(None, 'Выберите папку...'))
-        print(output_dir_path)
-        if output_dir_path[0]:
+        output_dir_path = FileDialog().get_dir_path()
+        if output_dir_path:
             self.ui.result_path_line_edit.setText(output_dir_path)
 
-    def on_file_protection_is_completed(self, message: str):
-        self.ui.statusbar.showMessage(message)
+    # SIGNALS+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    # Set status 'process'
+    def on_passport_protection_started(self, order: PassportProtectionOrder, color: str, message: str):
+        self.__orders_handler.set_order_status(order, color, message)
 
-    def get_tree_items(self) -> dict:
-        root = self.ui.passport_tree_widget.invisibleRootItem()
-        files_dict = {}
-        for i in range(root.childCount()):
-            item = root.child(i)
-            dir_path = item.text(0)
-            file_name = item.text(1)
-            files_dict[i] = dir_path + '\\' + file_name
-        return files_dict
+    # Set status 'finished'
+    def on_passport_protection_finished(self, order: PassportProtectionOrder, color: str, message: str):
+        self.__orders_handler.set_order_status(order, color, message)
 
-    # Sets the status and treeItem color during file processing
-    def set_tree_item_status(self, item_index: int, message: str, color_hex: str):
-        color = QColor(color_hex)
-        self.ui.passport_tree_widget.invisibleRootItem().child(item_index).setBackground(0, color)
-        self.ui.passport_tree_widget.invisibleRootItem().child(item_index).setBackground(1, color)
-        self.ui.passport_tree_widget.invisibleRootItem().child(item_index).setBackground(2, color)
-        self.ui.passport_tree_widget.invisibleRootItem().child(item_index).setText(2, message)
-
-    # Show messageBox on passport protection ready
-    def show_message_on_result_ready(self):
+    # on received protection for all passport files
+    def on_passports_protection_completed(self):
         self.thread.quit()
-        msg_answer = QMessageBox.question(None, 'Обработка завершена',
-                                          'Открыть папку с файлами?',
-                                          QMessageBox.Yes, QMessageBox.No)
-        if msg_answer == QMessageBox.Yes:
-            result_path = self.ui.result_path_line_edit.text() + "\\Паспорта с защитой"
-            os.system(r'explorer.exe ' + f'{result_path}')
-
-    # Show message box by title, message
-    @staticmethod
-    def show_message(title: str, message: str):
-        msg = QMessageBox()
-        msg.setText(message)
-        msg.setWindowTitle(title)
-        msg.exec_()
-
-    # Sets the text to the first column - 'Расположение'
-    @staticmethod
-    def set_text_to_tree_item_dir_path_column(item: QTreeWidgetItem, text: str):
-        item.setText(0, text)
-
-    # Sets the text to the second column - 'Файл'
-    @staticmethod
-    def set_text_to_tree_item_file_name_column(item: QTreeWidgetItem, text: str):
-        item.setText(1, text)
-
-    # Sets the text to the third column - 'Статус'
-    @staticmethod
-    def set_text_to_tree_item_status_column(item: QTreeWidgetItem, text: str):
-        item.setText(2, text)
+        result_path = self.ui.result_path_line_edit.text() + "\\Паспорта с защитой"
+        Speaker().show_message_on_result_ready(result_path)
+    # SIGNALS---------------------------------------------------------

@@ -5,11 +5,11 @@ from configs import config
 
 
 class ParserN1(ResultDataFrame):
-    def __init__(self, files_list: list[str]):
+    def __init__(self, files: list[str]):
         super().__init__()
-        self.df_price = self.get_price_dataframe(files_list)
-        self.df_stock = self.get_stock_dataframe(files_list)
-        self.df_rrc = self.get_rrc_dataframe(files_list)
+        self.df_price = self.get_price_dataframe(files)
+        self.df_stock = self.get_stock_dataframe(files)
+        self.df_rrc = self.get_rrc_dataframe(files)
         self.headers = config.N1_HEADERS
 
     def get_result(self) -> pd.DataFrame:
@@ -55,19 +55,19 @@ class ParserN1(ResultDataFrame):
         self.df_price = self.df_price.merge(self.df_rrc, how='left', left_on='Артикул', right_on='артикул')
 
     @staticmethod
-    def get_price_dataframe(files_list: list) -> pd.DataFrame:
+    def get_price_dataframe(files_list: list[str]) -> pd.DataFrame:
         for filename in files_list:
             if 'мелкий' in filename.lower():
                 return Storage().get_dataframe(filename, start_row=2)
 
     @staticmethod
-    def get_stock_dataframe(files_list: list) -> pd.DataFrame:
+    def get_stock_dataframe(files_list: list[str]) -> pd.DataFrame:
         for filename in files_list:
             if 'остатки' in filename.lower():
                 return Storage().get_dataframe(filename, start_row=7)
 
     @staticmethod
-    def get_rrc_dataframe(files_list: list) -> pd.DataFrame:
+    def get_rrc_dataframe(files_list: list[str]) -> pd.DataFrame:
         for filename in files_list:
             if 'ррц' in filename.lower() or 'мдц' in filename.lower():
                 return Storage().get_dataframe(filename, start_row=1)
