@@ -9,23 +9,12 @@
 from file_manager.storage import Storage
 
 
-class PreparePhotoArchive(Storage):
-    def __init__(self, dir_with_photo_path: str, file_with_articles_path: str, result_dir_path: str):
-        super().__init__()
-        self.__dir_with_photo_path = dir_with_photo_path
-        self.__file_with_articles_path = file_with_articles_path
+class PreparePhotoArchive:
+
+    def __init__(self, photo_archive_location: str, result_dir_path: str):
+        self.__photo_archive_location = photo_archive_location
         self.__result_dir_path = result_dir_path
 
-    def start(self):
-        articles_list_without_photo = self.get_dataframe(self.__file_with_articles_path).to_numpy()
-        dirs_list_with_photo = self.get_filenames(self.__dir_with_photo_path)
+    def start_one(self, article: str):
+        Storage().move(self.__photo_archive_location, self.__result_dir_path, article)
 
-        for row in articles_list_without_photo:
-            article = str(row[0])
-            self.__find_folder_by_name(dirs_list_with_photo, article)
-
-    def __find_folder_by_name(self, dir_for_find: list, search_folder_name: str):
-        for current_folder_name in dir_for_find:
-            if str(current_folder_name) == search_folder_name:
-                self.move(self.__dir_with_photo_path, self.__result_dir_path, current_folder_name)
-                break

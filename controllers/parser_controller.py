@@ -45,6 +45,8 @@ class ParserController:
         ui.parse_a4_push_button.clicked.connect(self.on_parse_a4_push_button)
         # ParserOrdersHandler
         self.manual_orders_handler = ManualParserOrdersHandler(self.ui.manual_parser_tree_widget)
+        # TEST
+        ui.test_push_button.clicked.connect(self.test)
 
     # MANUAL PARSER ELEMENTS+++++++++++++++++++++++++++++++++++++++++++++++++++++
     # Добавлет в TreeWidgetItem для 1 файла
@@ -176,3 +178,5 @@ class ParserController:
                                               config.A4_NAME: lambda: self.ui.parse_a4_push_button.setEnabled(status)}
         return automatic_parsing_line_edits[supplier_name]()
 
+    def test(self):
+        pass

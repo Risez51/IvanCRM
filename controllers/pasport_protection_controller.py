@@ -51,6 +51,7 @@ class PassportProtectionController:
         else:
             Speaker().show_message('Недостаточно данных', 'Введите путь для итоговых файлов')
 
+    # Заполнеят result line edit -> result path directory
     def on_set_result_path_push_button(self):
         output_dir_path = FileDialog().get_dir_path()
         if output_dir_path:
@@ -58,12 +59,12 @@ class PassportProtectionController:
 
     # SIGNALS+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     # Set status 'process'
-    def on_passport_protection_started(self, order: PassportProtectionOrder, color: str, message: str):
-        self.__orders_handler.set_order_status(order, color, message)
+    def on_passport_protection_started(self, order: PassportProtectionOrder):
+        self.__orders_handler.set_order_status(order, config.STATUS_PROCESSING_COLOR, config.STATUS_PROCESSING)
 
     # Set status 'finished'
-    def on_passport_protection_finished(self, order: PassportProtectionOrder, color: str, message: str):
-        self.__orders_handler.set_order_status(order, color, message)
+    def on_passport_protection_finished(self, order: PassportProtectionOrder):
+        self.__orders_handler.set_order_status(order, config.STATUS_READY_COLOR, config.STATUS_READY)
 
     # on received protection for all passport files
     def on_passports_protection_completed(self):

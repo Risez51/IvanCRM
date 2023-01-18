@@ -23,7 +23,7 @@ class ManualParserOrder:
         self.__files.append(file_location)
 
     # Создает TreeWidgetItem из нескольких файлов
-    @dispatch(list[str])
+    @dispatch(list)
     def set_values(self, file_locations: list[str]):
         self.__tree_widget_item.setText(0, path.dirname(file_locations[0]))
         file_names = self.__create_multiple_file_names(file_locations)
@@ -35,7 +35,7 @@ class ManualParserOrder:
         return self.__tree_widget_item
 
     # Возвращает список файлов [расположение\имя_файла,...]
-    def get_files(self):
+    def get_files(self) -> list[str]:
         return self.__files
 
     # Возвращает имя поставщика (Текущий текст в combobox)

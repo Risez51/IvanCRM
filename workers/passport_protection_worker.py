@@ -12,9 +12,9 @@ from orders.passport_protection_order import PassportProtectionOrder
 class PassportProtectionWorker(QtCore.QObject):
     # passport protection signals
     # Сигнал, что начата обработка конкретного файла
-    passport_protection_started = QtCore.pyqtSignal(PassportProtectionOrder, str, str)
+    passport_protection_started = QtCore.pyqtSignal(PassportProtectionOrder)
     # Сигнал, что обработка конкретного файла завершена
-    passport_protection_finished = QtCore.pyqtSignal(PassportProtectionOrder, str, str)
+    passport_protection_finished = QtCore.pyqtSignal(PassportProtectionOrder)
     # Сигнал, что завершена обработка всех файлов
     passport_protection_completed = QtCore.pyqtSignal()
     # --------------------------------------------------
@@ -31,10 +31,10 @@ class PassportProtectionWorker(QtCore.QObject):
         # Инициализация COMObject
         pythoncom.CoInitialize()
         for order in self.__orders:
-            self.passport_protection_started.emit(order, config.STATUS_PROCESSING_COLOR, config.STATUS_PROCESSING)
+            self.passport_protection_started.emit(order)
             PassportProtection(order.get_file_dir(),
                                self.__output_path).create_protected_passport(order.get_file_name())
-            self.passport_protection_finished.emit(order, config.STATUS_READY_COLOR, config.STATUS_READY)
+            self.passport_protection_finished.emit(order)
         self.passport_protection_completed.emit()
 
     def set_params(self, files: list[PassportProtectionOrder], output_dir: str):
